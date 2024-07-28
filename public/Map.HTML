@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TomTom Maps Example</title>
+    <style>
+        /* Set the size of the map */
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+    <!-- Include the TomTom Maps SDK -->
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script>
+    <!-- Include the TomTom Maps CSS -->
+    <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps.css">
+</head>
+<body>
+    <h1>TomTom Maps Example</h1>
+    <div id="map"></div>
+
+    <script>
+        // Your TomTom API Key
+        const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC';
+
+        // Initialize the map
+        function initMap() {
+            const map = tt.map({
+                key: apiKey,
+                container: 'map',
+                center: [-73.3579, 41.1415], // Default location (Westport)
+                zoom: 10
+            });
+
+            // Add click event listener to the map
+            map.on('click', function (event) {
+                const lngLat = event.lngLat;
+                addMarker(map, lngLat);
+            });
+        }
+
+        // Function to add a marker at the clicked location
+        function addMarker(map, lngLat) {
+            new tt.Marker().setLngLat(lngLat).addTo(map);
+        }
+
+        // Initialize the map on page load
+        document.addEventListener('DOMContentLoaded', initMap);
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Username</title>
+    <style> 
+        input[type=text] {
+        
+          width: 100%;
+          padding: 12px 20px;
+          margin: 8px 0;
+          box-sizing: border-box;
+        }
+
+        input[type=submit] {
+        
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        background-color: rgb(62, 222, 62);
+        border-radius: 8px;
+        font-family: "cambria",sans-serif,bold;
+        font-size: 20px;
+        box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.2);
+      }
+        .container{
+            background-color: aliceblue;
+            padding:100px
+        }
+        </style>
+
+<link rel="stylesheet" href="testing.css">
+</head>
+<body>
+
+<h1><center>Sign up</center></h1>
+
+
+<script src="login.js"></script>
+
+<div class="container">
+
+<form id="signupForm" onsubmit="return takeName()">
+    <label for="fname">First name:</label><br><br>
+    <input type="text" id="fname" name="fname" placeholder="Your First Name"><br><br>
+    <label for="lname">Last name:</label><br><br>
+    <input type="text" id="lname" name="lname" placeholder="Your Last Name"><br><br>
+    <input type="submit" value="Submit">
+</form>
+
+</div>
+</body>
+</html>
