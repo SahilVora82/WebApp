@@ -31,6 +31,12 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
