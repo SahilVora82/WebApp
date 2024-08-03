@@ -40,7 +40,7 @@
 <script src="login.js"></script>
 
 <div class="container">
-
+<!--
 <form id="signupForm" onsubmit="return takeName()">
     <label for="fname">First name:</label><br><br>
     <input type="text" id="fname" name="fname" placeholder="Your First Name"><br><br>
@@ -48,7 +48,14 @@
     <input type="text" id="lname" name="lname" placeholder="Your Last Name"><br><br>
     <input type="submit" value="Submit">
 </form>
-
+-->
+    <form id="signupForm" action="/api/signup" method="POST">
+        <label for="username">username:</label><br><br>
+        <input type="text" id="username" name="username" placeholder="Your First Name"><br><br>
+        <label for="password">password:</label><br><br>
+        <input type="text" id="password" name="password" placeholder="Your Last Name"><br><br>
+        <input type="submit" value="Submit">
+    </form>
 </div>
 </body>
 </html>

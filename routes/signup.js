@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const connection = require('../db');
 
 router.post('/signup', (req, res) => {
+    console.log(req.body);
     const { username, password } = req.body;
     const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
 
-    db.query(query, [username, password], (err, results) => {
+    connection.query(query, [username, password], (err, results) => {
         if (err) {
             console.error('Error inserting user into the database:', err);
             res.status(500).send('Error inserting user into the database');
             return;
         }
-        res.send('User successfully signed up');
+        console.log('User successfully signed up');
+        res.redirect('/Testing.HTML');
     });
 });
 
