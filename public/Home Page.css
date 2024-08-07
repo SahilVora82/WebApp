@@ -1,0 +1,97 @@
+body{
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+
+}
+
+.background{
+    width:100%;
+    top: -5px;
+    left: -5px;
+
+}
+
+h3{
+    text-align: center;
+    position:relative;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+
+.container {
+    position: relative;
+    text-align: center;
+    top: 0%;
+}
+
+
+.centered {
+    width: 20%;
+    height: 55%;
+    background-color: #edf4f8;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+}
+.text{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,bold;
+
+    font-size: 30px;
+    color: black;
+
+    box-shadow: black 4px;
+
+}
+
+.Signup{
+    background-color: #06f31a;
+
+    font-size: 30px;
+    border-radius: 30px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: aliceblue;
+    padding:20px;
+    border-width: 0;
+
+}
+
+.Login{
+    background-color: #edf4f800;
+    border-width: 6px;
+    font-size: 30px;
+    border-style:solid ;
+    border-radius: 50px;
+    border-color: #06f31a;
+    padding:20px;
+}
+
+.topnav{
+    position: fixed;
+    left: 0;
+    top:0;
+    width: 100%;
+    height:auto;
+    background-color: rgba(0, 0, 0, 0.486);
+    padding:5px;
+    color: white;
+}
+
+.topnav a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    text-decoration: none;
+
+    text-decoration: none;
+    font-size: 40px;
+    color: #ffffff;
+
+
+}

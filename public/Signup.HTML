@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Username</title>
+    <title>Sign up</title>
     <style> 
         input[type=text] {
         
@@ -34,28 +34,28 @@
 </head>
 <body>
 
-<h1><center>Sign up</center></h1>
+<h1><a href="Signup.HTML"><button>Sign up</button></a></h1>
+<h2><a href="Login.html"><button>Log in</button></a></h2>
 
 
-<script src="login.js"></script>
+<script src="Signup.js"></script>
+<script>
+    window.onload = function() {
+        retrievePasswords();
+    }
+</script>
 
 <div class="container">
-<!--
-<form id="signupForm" onsubmit="return takeName()">
-    <label for="fname">First name:</label><br><br>
-    <input type="text" id="fname" name="fname" placeholder="Your First Name"><br><br>
-    <label for="lname">Last name:</label><br><br>
-    <input type="text" id="lname" name="lname" placeholder="Your Last Name"><br><br>
-    <input type="submit" value="Submit">
-</form>
--->
     <form id="signupForm" action="/api/signup" method="POST">
-        <label for="username">username:</label><br><br>
-        <input type="text" id="username" name="username" placeholder="Your First Name"><br><br>
-        <label for="password">password:</label><br><br>
-        <input type="text" id="password" name="password" placeholder="Your Last Name"><br><br>
+        <label for="username">Username:</label><br><br>
+        <input type="text" id="username" name="username" placeholder="Your Username"><br><br>
+        <label for="password">Password:</label><br><br>
+        <input type="text" id="password" name="password" placeholder="Your Password"><br><br>
+        <label for="cpassword">Confirm Password:</label><br><br>
+        <input type="text" id="cpassword" name="cpassword" placeholder="Your Password"><br><br>
         <input type="submit" value="Submit">
     </form>
 </div>
+
 </body>
 </html>

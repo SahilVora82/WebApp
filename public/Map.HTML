@@ -7,7 +7,7 @@
     <style>
         /* Set the size of the map */
         #map {
-            height: 400px;
+            height: 800px;
             width: 100%;
         }
     </style>
@@ -15,38 +15,99 @@
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script>
     <!-- Include the TomTom Maps CSS -->
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps.css">
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/.tomtom.min.js"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+        #pin-form {
+            margin: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>TomTom Maps Example</h1>
-    <div id="map"></div>
+<h1><center>
+    <img src="Add a heading.png" style="width: 10%">Networking Portal</center></h1>
+<div id="map"></div>
+<div id="map"></div>
 
-    <script>
-        // Your TomTom API Key
-        const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC';
+<div id="pin-form">
+    <h2>Add a Pin</h2>
+    <form id="add-pin-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+        <br><br>
+        <label for="latitude">Latitude:</label>
+        <input type="number" step="any" id="latitude" required>
+        <br><br>
+        <label for="longitude">Longitude:</label>
+        <input type="number" step="any" id="longitude" required>
+        <br><br>
+        <button type="submit">Add Pin</button>
+    </form>
+</div>
 
-        // Initialize the map
-        function initMap() {
-            const map = tt.map({
-                key: apiKey,
-                container: 'map',
-                center: [-73.3579, 41.1415], // Default location (Westport)
-                zoom: 10
-            });
+<script>
+    const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC'; // Replace with your TomTom API key
+    const apiUrl = 'database-3.ct64se8ooimh.us-east-2.rds.amazonaws.com'; // Adjust if necessary for your backend URL
 
-            // Add click event listener to the map
-            map.on('click', function (event) {
-                const lngLat = event.lngLat;
-                addMarker(map, lngLat);
-            });
-        }
+    // Initialize the TomTom map
+    const map = tt.map({
+        key: apiKey,
+        container: 'map',
+        center: [0, 0], // Default center (can be adjusted)
+        zoom: 2
+    });
 
-        // Function to add a marker at the clicked location
-        function addMarker(map, lngLat) {
-            new tt.Marker().setLngLat(lngLat).addTo(map);
-        }
+    // Load existing pins from the backend
+    const loadPins = () => {
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(pins => {
+                pins.forEach(pin => {
+                    new tt.Marker()
+                        .setLngLat([pin.longitude, pin.latitude])
+                        .setPopup(new tt.Popup({ offset: 35 }).setText(pin.name))
+                        .addTo(map);
+                });
+            })
+            .catch(error => console.error('Error loading pins:', error));
+    };
 
-        // Initialize the map on page load
-        document.addEventListener('DOMContentLoaded', initMap);
-    </script>
+    // Add a new pin and store it in the backend
+    document.getElementById('add-pin-form').addEventListener('submit', event => {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const latitude = parseFloat(document.getElementById('latitude').value);
+        const longitude = parseFloat(document.getElementById('longitude').value);
+
+        const pin = { name, latitude, longitude };
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pin)
+        })
+            .then(response => response.json())
+            .then(() => {
+                // Add marker to the map
+                new tt.Marker()
+                    .setLngLat([longitude, latitude])
+                    .setPopup(new tt.Popup({ offset: 35 }).setText(name))
+                    .addTo(map);
+
+                // Optionally, clear the form fields
+                document.getElementById('add-pin-form').reset();
+            })
+            .catch(error => console.error('Error adding pin:', error));
+    });
+
+    // Initial load of pins
+    loadPins();
+</script>
 </body>
 </html>
