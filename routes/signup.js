@@ -4,10 +4,10 @@ const connection = require('../db');
 
 router.post('/signup', (req, res) => {
     console.log(req.body);
-    const { username, password } = req.body;
-    const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
+    const { username, password, location } = req.body;
+    const query = 'INSERT INTO users (username, password, location) VALUES (?, ?, ?)';
 
-    connection.query(query, [username, password], (err, results) => {
+    connection.query(query, [username, password, location], (err, results) => {
         if (err) {
             console.error('Error inserting user into the database:', err);
             res.status(500).send('Error inserting user into the database');
@@ -47,12 +47,6 @@ router.post('/login', (req, res) => {
 });
 
 
-
-function alerting(){
-
-
-
-}
 
 
 

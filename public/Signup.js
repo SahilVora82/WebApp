@@ -36,6 +36,6 @@ function checkPasswords() {
             x = 9;
         }
     } else {
-        submitButton.disabled = true; 
+        submitButton.disabled = true;
     }
 }
