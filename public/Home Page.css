@@ -21,26 +21,51 @@ h3{
 }
 
 
+.containera {
+    position: relative;
+    text-align: center;
+    top:0%;
+    width: 30%;
+    height: 50%;
+}
+
 .container {
     position: relative;
     text-align: center;
-    top: 0%;
+    top:0;
+
 }
 
 
 .centered {
-    width: 20%;
-    height: 55%;
+    margin-left: 40%;
     background-color: #edf4f8;
     position: absolute;
+    font-size: 100%;
     top: 50%;
-    left: 50%;
-    padding-top: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
-    transform: translate(-50%, -50%);
+    left: 65%;
+    width:30%;
+
+    padding:2%;
+    transform: translate(-35%, -50%);
     border-radius: 20px;
+
 }
+
+
+
+.left{
+
+
+    position: absolute;
+    font-size: 75%;
+    top: 50%;
+    left: 35%;
+    transform: translate(-65%, -50%);
+
+
+}
+
 .text{
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,bold;
 
@@ -54,23 +79,23 @@ h3{
 .Signup{
     background-color: #06f31a;
 
-    font-size: 30px;
+    font-size: 100%;
     border-radius: 30px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     color: aliceblue;
-    padding:20px;
+    padding:5%;
     border-width: 0;
-
+    margin-top: 5%;
 }
 
 .Login{
     background-color: #edf4f800;
     border-width: 6px;
-    font-size: 30px;
+    font-size: 100%;
     border-style:solid ;
     border-radius: 50px;
     border-color: #06f31a;
-    padding:20px;
+    padding:5%;
 }
 
 .topnav{
@@ -78,10 +103,11 @@ h3{
     left: 0;
     top:0;
     width: 100%;
-    height:auto;
+    height:10%;
     background-color: rgba(0, 0, 0, 0.486);
     padding:5px;
     color: white;
+    float:left;
 }
 
 .topnav a {
