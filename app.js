@@ -7,7 +7,9 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var signupRouter = require('./routes/signup'); // Add this line
+var signupRouter = require('./routes/signup');
+var requestRouter = require('./routes/request');
+var requestDisplay = require('./routes/request');
 
 var connection = require('./db');
 
@@ -27,6 +29,9 @@ app.use(express.static(path.join(__dirname, './public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', signupRouter); // Add this line
+app.use('/api', requestRouter); // Add this line
+app.use('/api', requestDisplay); // Add this line
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

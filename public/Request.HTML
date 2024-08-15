@@ -8,22 +8,23 @@
 <title>Requests</title>
 <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
 
-	
+
 <link rel="stylesheet" href="Testing.CSS">
 <meta charset="UTF-8">
 <title></title>
 </head>
 <body>
-    
 
-    <form id="request" onsubmit="return takeRequest()">
-        <label for="items">What items do you need?:</label>
-        <input type="text" id="items" name="items"><br><br>
+<div class="container">
+    <form id="request" action="/api/request" method="POST">
+        <label for="username">What is your username?</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="request">What items do you need?</label>
+        <input type="text" id="request" name="request"><br><br>
+
         <input type="submit" value="Submit">
-    
     </form>
-    
-    <script src="Request.js"></script>
-    
+</div>
+
     </body>
     </html>
