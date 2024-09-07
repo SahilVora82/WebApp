@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Log in</title>
     <style>
+        input[type="password"],
         input[type=text] {
 
             width: 100%;
@@ -45,9 +46,22 @@
         <label for="username">Username:</label><br><br>
         <input type="text" id="username" name="username" placeholder="Your Username"><br><br>
         <label for="password">Password:</label><br><br>
-        <input type="text" id="password" name="password" placeholder="Your Password"><br><br>
+
+        <input type="password" type="password"  id="password" name="password" placeholder="Your Password"><br><br>
+        <button type="button" onclick="togglePasswordVisibility()">Show/Hide Password</button> <br><br>
         <input type="submit" value="Submit">
     </form>
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+    </script>
+
 </div>
 
 </body>

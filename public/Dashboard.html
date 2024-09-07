@@ -57,9 +57,13 @@
             const boxElement = document.createElement('div');
             boxElement.className = 'box';
             boxElement.innerHTML = `
-                <div class="name">${box.username}</div>
-                <div class="date">${box.request}</div>
-            `;
+          <div class="name">${box.username}</div>
+          <div class="date">${box.request}</div>
+          <div class="date">${box.location}</div>
+
+             `
+
+            ;
             container.appendChild(boxElement);
         });
     }
@@ -72,6 +76,8 @@
         .catch(error => console.error('Error fetching data:', error));
 </script>
 
+
 <a href="Request.HTML">Create another request</a>
+<a href="Map.HTML">Go to the map! See where current requests are!</a>
 </body>
 </html>

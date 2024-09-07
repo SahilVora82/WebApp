@@ -5,26 +5,76 @@
 <html>
 
 <head>
-<title>Requests</title>
-<link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+    <title>Requests</title>
+    <link rel="icon" type="image/x-icon" href="favicon-16x16.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Multiple Inputs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        .output-container {
+            margin-top: 10px;
+
+        }
+        .output-item {
+            background-color: rgba(130, 183, 236, 0.755);
+            padding: 5px;
+            border-radius: 40%;
+            margin-top: 5px;
+            font-weight: bold;
+            margin-left: 10px;
+            float: left;
+        }
+    </style>
 
 
-<link rel="stylesheet" href="Testing.CSS">
-<meta charset="UTF-8">
-<title></title>
+    <link rel="stylesheet" href="request.css">
+    <meta charset="UTF-8">
+    <title></title>
 </head>
 <body>
 
-<div class="container">
-    <form id="request" action="/api/request" method="POST">
-        <label for="username">What is your username?</label>
-        <input type="text" id="username" name="username"><br><br>
-        <label for="request">What items do you need?</label>
-        <input type="text" id="request" name="request"><br><br>
 
-        <input type="submit" value="Submit">
-    </form>
+<div class = "input-container">
+    <div class="container">
+        <img src="Add a heading.png" alt="Snow" style="width:40%;"><br><br>
+        <form id="requests" action="/api/request" method="POST">
+            <label for="request" >What items do you need?</label><br>
+            <input type="text" id="request" name="request" placeholder = "Press the ';' key after each Item"><br><br>
+            <div class="output-container" id="output"></div><br><br>
+            <label for="location">What is your location (address)?</label><br>
+            <input type="text" id="location" name="location"><br><br>
+
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </div>
 
-    </body>
-    </html>
+
+
+<script>
+    const inputField = document.getElementById('request');
+    const outputDiv = document.getElementById('output');
+
+    inputField.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const newItem = document.createElement('div');
+            newItem.className = 'output-item';
+            newItem.textContent = inputField.value;
+            outputDiv.appendChild(newItem);
+            inputField.value = '';  // Clear the input field after displaying the text
+        }
+    });
+</script>
+
+
+</body>
+</html>

@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign up</title>
-    <style> 
+    <style>
+        input[type=password],
         input[type=text] {
-        
+
           width: 100%;
           padding: 12px 20px;
           margin: 8px 0;
@@ -13,7 +14,7 @@
         }
 
         input[type=submit] {
-        
+
         width: 100%;
         padding: 12px 20px;
         margin: 8px 0;
@@ -49,16 +50,35 @@
     <form id="signupForm" action="/api/signup" method="POST">
         <label for="username">Username:</label><br><br>
         <input type="text" id="username" name="username" placeholder="Your Username"><br><br>
+
         <label for="password">Password:</label><br><br>
-        <input type="text" id="password" name="password" placeholder="Your Password"><br><br>
-        <label for="cpassword">Confirm Password:</label><br><br>
-        <input type="text" id="cpassword" name="cpassword" placeholder="Your Password"><br><br>
+        <input type="password" id="password" name="password" placeholder="Your Password">
+        <button type="button" onclick="togglePasswordVisibility()">Show/Hide Password</button> <br><br>
+
+        <br><label for="cpassword">Confirm Password:</label><br>
+        <input type="password" id="cpassword" name="cpassword" placeholder="Your Password"><br><br>
+
         <label for="location">Location (address):</label><br><br>
         <input type="text" id="location" name="location" placeholder="Your Adress"><br><br>
+
         <span id="error-message" style="color: red; display: none;">Passwords don't match up</span><br><br>
         <input type="submit" value="Submit">
     </form>
+
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+    </script>
+
 </div>
+
 
 </body>
 </html>

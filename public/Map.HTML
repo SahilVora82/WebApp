@@ -10,27 +10,22 @@
             height: 800px;
             width: 100%;
         }
+        #pin-form {
+            margin: 20px;
+        }
     </style>
     <!-- Include the TomTom Maps SDK -->
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script>
     <!-- Include the TomTom Maps CSS -->
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps.css">
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/.tomtom.min.js"></script>
-    <style>
-        #map {
-            width: 100%;
-            height: 600px;
-        }
-        #pin-form {
-            margin: 20px;
-        }
-    </style>
 </head>
 <body>
 <h1><center>
     <img src="Add a heading.png" style="width: 10%">Networking Portal</center></h1>
+
 <div id="map"></div>
-<div id="map"></div>
+<div id="box-container"></div>
 
 <div id="pin-form">
     <h2>Add a Pin</h2>
@@ -48,9 +43,10 @@
     </form>
 </div>
 
+
 <script>
-    const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC'; // Replace with your TomTom API key
-    const apiUrl = 'database-3.ct64se8ooimh.us-east-2.rds.amazonaws.com'; // Adjust if necessary for your backend URL
+    const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC';
+    const apiUrl = '/api/location';
 
     // Initialize the TomTom map
     const map = tt.map({
@@ -66,47 +62,43 @@
             .then(response => response.json())
             .then(pins => {
                 pins.forEach(pin => {
-                    new tt.Marker()
-                        .setLngLat([pin.longitude, pin.latitude])
-                        .setPopup(new tt.Popup({ offset: 35 }).setText(pin.name))
-                        .addTo(map);
+                 //   console.log('Pin:', pin.location);
+                    geoCodeAddress(pin.location);
                 });
             })
             .catch(error => console.error('Error loading pins:', error));
+
+
     };
+    function geoCodeAddress(address) {
+        const apiKey = 'pk.4e7d542fb27c753e173543c95bf667e6';
+        const url = `https://us1.locationiq.com/v1/search.php?key=${apiKey}&q=${encodeURIComponent(address)}&format=json`;
 
-    // Add a new pin and store it in the backend
-    document.getElementById('add-pin-form').addEventListener('submit', event => {
-        event.preventDefault();
-
-        const name = document.getElementById('name').value;
-        const latitude = parseFloat(document.getElementById('latitude').value);
-        const longitude = parseFloat(document.getElementById('longitude').value);
-
-        const pin = { name, latitude, longitude };
-
-        fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(pin)
-        })
+        fetch(url)
             .then(response => response.json())
-            .then(() => {
-                // Add marker to the map
-                new tt.Marker()
-                    .setLngLat([longitude, latitude])
-                    .setPopup(new tt.Popup({ offset: 35 }).setText(name))
-                    .addTo(map);
-
-                // Optionally, clear the form fields
-                document.getElementById('add-pin-form').reset();
+            .then(data => {
+                if (data.length > 0) {
+                    const location = data[0];
+                    console.log(`Latitude: ${location.lat}, Longitude: ${location.lon}`);
+                    addMarkerToMap(location.lat, location.lon, address)
+                } else {
+                    console.log('No results found');
+                }
             })
-            .catch(error => console.error('Error adding pin:', error));
-    });
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
 
-    // Initial load of pins
+    function addMarkerToMap(lat, lon, address) {
+        const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
+        const popup = new tt.Popup({ offset: 35 })
+            .setText(address);
+        marker.setPopup(popup).togglePopup();
+    }
+
+
+        // Initial load of pins
     loadPins();
 </script>
 </body>
