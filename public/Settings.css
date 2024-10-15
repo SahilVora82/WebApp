@@ -1,0 +1,35 @@
+h1{
+    font-family: "Monstserrat",sans-serif;
+    font-size:250% ;
+}
+
+hr {
+    width: 50%;
+    height:5px;
+    background-color: black;
+  }
+button{
+    border-radius: 20px;
+    font-size: large;
+    font-family: "Monstserrat",sans-serif;
+    background-image:'linear-gradient(to bottom right, rgb(0, 183, 255), yellow)';
+}
+
+blue{
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+}
+
+.gradient-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    cursor: pointer;
+  }
+  
+  .gradient-button:hover {
+    background: linear-gradient(to right, #feb47b, #ff7e5f);
+  }
+  

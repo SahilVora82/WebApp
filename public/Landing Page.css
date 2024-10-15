@@ -1,0 +1,75 @@
+body{
+    font-family: 'Franklin Gothic Medium', 'Arial ', Arial, sans-serif;
+    background-color: rgb(24, 24, 24);
+}
+h1{
+    font-size: 250%;
+
+    color: rgb(0, 183, 255);
+}
+.icons{
+    float: left;
+    max-height: 20%;
+    align-items: center;
+    text-align: center;
+    position:relative;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+}
+
+.image-gallery {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 1%;
+    color: aliceblue;
+}
+
+figure {
+    text-align: center;
+    color: aliceblue;
+}
+
+img {
+    max-width: 100%;
+    max-height: 40%;
+}
+
+figcaption {
+    margin-top: 8px;
+    font-style: italic;
+    color: aliceblue;
+}
+
+hr {
+    width: 80%;
+    height:5px;
+    background-color: rgb(255, 255, 255);
+}
+
+.hover-image {
+    transition: transform 0.3s ease; /* Smooth transition /
+}
+
+.image-link:hover .hover-image {
+    transform: scale(1.2); / Scale image to 110% */
+}
+
+
+.logo{
+    position: absolute;
+    font-size: 75%;
+    top: 3%;
+    left: 3%;
+    transform: translate(-3%, -3%);
+}
+
+.aboutus{
+    position: absolute;
+    font-size: 75%;
+    top: 3%;
+    left: 97%;
+    transform: translate(-97%, -3%);
+}

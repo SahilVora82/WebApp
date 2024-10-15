@@ -1,0 +1,90 @@
+.open-sans-<uniquifier> {
+                font-family: "Open Sans", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: <weight>;
+                font-style: normal;
+                font-variation-settings:
+                        "wdth" 100;
+            }
+
+.background{
+    width:100%;
+    top: -5px;
+    left: -5px;
+    padding-top: 5px;
+}
+
+button{
+    border-radius: 10px;
+    background-color: #ffffff00;
+    border-color: rgb(0, 106, 255);
+    width: 60%;
+    border-width: 8px;
+    font-size: 60%;
+    font-family:"Open Sans", sans-serif;
+    color: aliceblue;
+}
+
+.container {
+    position: relative;
+    text-align: center;
+    background-color: #1d1f1f;
+    position: absolute;
+    font-size: 100%;
+    top: 43.5%;
+    left: 50%;
+    width: 27.5%;
+    box-shadow: 0 8px 16px 0 rgba(92, 91, 91, 0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    font-size: 150%;
+    font-family:"Open Sans", sans-serif;
+    font-weight: bold;
+    padding:5%;
+    transform: translate(-47.5%, -47.5%);
+    border-radius: 20px;
+    color: white;
+    height: 89%;
+
+}
+
+
+
+
+
+input{
+    border-radius: 10px;
+    width: 50%;
+    font-family:"Open Sans", sans-serif;
+}
+
+
+.text{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,bold;
+    font-size: 30px;
+    color: black;
+    margin-top: 20px;
+    box-shadow: black 4px;
+    font-family:"Open Sans", sans-serif;
+}
+
+.Signup{
+    background-color: #06f31a;
+    font-family:"Open Sans", sans-serif;
+    font-size: 100%;
+    border-radius: 30px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    color: aliceblue;
+    padding:5%;
+    border-width: 0;
+    margin-top: 5%;
+}
+
+.Login{
+    background-color: #edf4f800;
+    border-width: 6px;
+    font-size: 100%;
+    border-style:solid ;
+    border-radius: 50px;
+    border-color: #06f31a;
+    padding:5%;
+    font-family:"Open Sans", sans-serif;
+}

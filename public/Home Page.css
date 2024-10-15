@@ -1,3 +1,28 @@
+.montserrat-<uniquifier> {
+                 font-family: "Montserrat", sans-serif;
+                 font-optical-sizing: auto;
+                 font-weight: <weight>;
+                 font-style: normal;
+             }
+
+
+.random_act{
+    font-size:100%;
+    background-color: #aaaaaa;
+    position: absolute;
+    font-size: 70%;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -90%);
+    color: black;
+    padding: 1px;
+    border-radius: 20px;
+    width: 75%;
+    height: 10%;
+    float:left;
+    align-items: center;
+}
+
 body{
     margin: 0;
     padding: 0;
@@ -12,12 +37,13 @@ body{
 
 }
 
-h3{
+p{
     text-align: center;
     position:relative;
     top: 0%;
     left: 50%;
     transform: translate(-50%, 0%);
+
 }
 
 
@@ -39,15 +65,15 @@ h3{
 
 .centered {
     margin-left: 40%;
-    background-color: #edf4f8;
+    background-color: #1d1f1f;
     position: absolute;
     font-size: 100%;
-    top: 50%;
-    left: 65%;
-    width:30%;
-
-    padding:2%;
-    transform: translate(-35%, -50%);
+    top: 45%;
+    left: 85%;
+    width:60%;
+    color: aliceblue;
+    padding:6%;
+    transform: translate(-15%, -45%);
     border-radius: 20px;
 
 }
@@ -59,15 +85,15 @@ h3{
 
     position: absolute;
     font-size: 75%;
-    top: 50%;
+    top: 40%;
     left: 35%;
-    transform: translate(-65%, -50%);
+    transform: translate(-65%, -40%);
 
 
 }
 
 .text{
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif,bold;
+    font-family: "Montserrat", sans-serif;
 
     font-size: 30px;
     color: black;
@@ -96,6 +122,7 @@ h3{
     border-radius: 50px;
     border-color: #06f31a;
     padding:5%;
+    color: aliceblue;
 }
 
 .topnav{

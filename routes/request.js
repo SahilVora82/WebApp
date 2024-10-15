@@ -31,7 +31,8 @@ router.post('/request', isAuthenticated, (req, res) => {
 });
 
 router.get('/get-requests', isAuthenticated, (req, res) => {
-    const query = 'SELECT * FROM requests';
+    // Fetch all requests including the `delivered` status
+    const query = 'SELECT username, request, location, requester_name, accepted, delivered, numberID FROM requests';
 
     connection.query(query, (err, results) => {
         if (err) {
@@ -39,10 +40,15 @@ router.get('/get-requests', isAuthenticated, (req, res) => {
             res.status(500).send('Error retrieving requests from the database');
             return;
         }
-        // Send the retrieved data as JSON to the client
-        res.json(results);
+
+        // Send back the requests along with the logged-in user's username
+        res.json({
+            boxes: results,               // Requests from the database
+            loggedInUsername: req.session.user.username // Logged-in user's username
+        });
     });
 });
+
 
 router.get('/location', (req, res) => {
     const query = 'SELECT * FROM requests';
@@ -58,6 +64,26 @@ router.get('/location', (req, res) => {
 });
 
 
+router.post('/deliver', isAuthenticated, (req, res) => {
+    const numberID = req.body.numberID;
+
+    // Update the request to mark it as delivered
+    const query = 'UPDATE requests SET delivered = "yes" WHERE numberID = ?';
+
+    connection.query(query, [numberID], (err, results) => {
+        if (err) {
+            console.error('Error marking request as delivered:', err);
+            res.status(500).send('Error marking request as delivered');
+            return;
+        }
+
+        console.log('Request marked as delivered');
+        res.redirect('/Dashboard.html'); // Redirect back to dashboard
+    });
+});
+
+
+
+
+
 module.exports = router;
-
-

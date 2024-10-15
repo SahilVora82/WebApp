@@ -3,81 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Boxes from Database</title>
+    <title>Active Requests</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .box-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            max-width: 1200px;
-        }
-        .box {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-            width: 250px;
-            height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            text-align: center;
-        }
-        .name, .date {
-            font-size: 16px;
-        }
-        .name {
-            font-weight: bold;
-        }
-        .date {
-            color: #666;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     </style>
 </head>
-<body>
-<h1>Dynamic Boxes from Database</h1>
+<body style="background-color: rgb(16, 16, 16);">
+<div class="logo">
+    <a href="Landing Page.HTML" class="image-link">
+        <img src="Add a Heading.png" style="width: 15%;" style="" class="hover-image" />
+    </a>
+</div>
+
+<h1 style="color:white">Active Requests
+    <a href="Request.HTML"><span class="material-symbols-outlined" style="color: aliceblue;">
+    add_circle
+    </span></a>
+
+    <span class="material-symbols-outlined" onclick="location.reload()">
+        refresh
+        </span>
+
+</h1>
+
+
+<!--<div id="grad"></div>
+<button style =" border-radius: 10px" onclick="changeGradient('blue')">Blue Gradient</button>
+    <button style =" border-radius: 10px" onclick="changeGradient('red')">Red Gradient</button>
+    <button style =" border-radius: 10px" onclick="changeGradient('green')">Green Gradient</button>
+-->
+
+<br>
 <div class="box-container" id="box-container"></div>
 
 <script>
-    function createBoxes(boxes) {
+
+    function createBoxes(boxes, loggedInUsername) {
         const container = document.getElementById('box-container');
+        container.innerHTML = ''; // Clear existing boxes to avoid duplicates
 
         boxes.forEach(box => {
             const boxElement = document.createElement('div');
             boxElement.className = 'box';
+            let actionButtonHTML = '';
+
+            // If the request has been accepted
+            if (box.accepted === "yes") {
+                // Check if the logged-in user is the one who accepted the request (for declining)
+                if (box.requester_name === loggedInUsername && box.delivered === "no") {
+                    actionButtonHTML += `
+                <button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>
+                <form action="/api/decline" method="POST">
+                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                    <button class="Decline" type="submit">Decline Request</button>
+                </form>
+                `;
+                } else {
+                    // If someone else accepted, just show the "Accepted by" message
+                    actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
+                }
+
+                // Check if the logged-in user is the one who made the request (for marking as delivered)
+                if (box.username === loggedInUsername && box.delivered === "no") {
+                    actionButtonHTML += `
+                <form action="/api/deliver" method="POST">
+                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                    <button class="Deliver" type="submit">Mark as Delivered</button>
+                </form>
+                `;
+                } else if (box.delivered === "yes") {
+                    actionButtonHTML += `<button class="Delivered" disabled>Delivered</button>`;
+                }
+            } else {
+                // If the request has not been accepted yet, show the "Accept Request" button
+                actionButtonHTML = `
+            <form action="/api/accept" method="POST">
+                <input type="hidden" name="numberID" value="${box.numberID}" />
+                <button class="Accept" type="submit">Accept Request</button>
+            </form>
+            `;
+            }
+
             boxElement.innerHTML = `
-          <div class="name">${box.username}</div>
-          <div class="date">${box.request}</div>
-          <div class="date">${box.location}</div>
-
-             `
-
-            ;
+        <div class="name">${box.username}</div>
+        <div class="request">${box.request}</div>
+        <div class="location">${box.location}</div>
+        ${actionButtonHTML}
+        `;
             container.appendChild(boxElement);
         });
     }
 
+    // Fetch requests and the logged-in username
     fetch('/api/get-requests')
         .then(response => response.json())
         .then(data => {
-            createBoxes(data);
+            const boxes = data.boxes;
+            const loggedInUsername = data.loggedInUsername;
+
+            createBoxes(boxes, loggedInUsername); // Pass the data to create the boxes
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
 </script>
 
-
-<a href="Request.HTML">Create another request</a>
-<a href="Map.HTML">Go to the map! See where current requests are!</a>
 </body>
 </html>

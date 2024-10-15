@@ -12,10 +12,13 @@ var signupRouter = require('./routes/signup');
 var requestRouter = require('./routes/request');
 var requestDisplay = require('./routes/request');
 var requestMap = require('./routes/request');
+var acceptingRequests = require('./routes/accept');
 
 var connection = require('./db');
 
 var app = express();
+const randomActsRouter = require('./routes/randomActs');
+app.use('/api', randomActsRouter);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -39,6 +42,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', signupRouter);
 app.use('/api', requestRouter);
+app.use('/api', acceptingRequests);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;

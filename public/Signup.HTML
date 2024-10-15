@@ -3,40 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign up</title>
+    <link rel="stylesheet" href="Signup.css">
     <style>
         input[type=password],
         input[type=text] {
 
-          width: 100%;
-          padding: 12px 20px;
-          margin: 8px 0;
-          box-sizing: border-box;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
         }
 
         input[type=submit] {
 
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        box-sizing: border-box;
-        background-color: rgb(62, 222, 62);
-        border-radius: 8px;
-        font-family: "cambria",sans-serif,bold;
-        font-size: 20px;
-        box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.2);
-      }
-        .container{
-            background-color: aliceblue;
-            padding:100px
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            background-color: rgb(62, 222, 62);
+            border-radius: 8px;
+            font-family: "cambria",sans-serif,bold;
+            font-size: 20px;
+            box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.2);
+            color: black;
         }
-        </style>
 
-<link rel="stylesheet" href="Testing.CSS">
+    </style>
+
+    <link rel="stylesheet" href="Testing.CSS">
 </head>
-<body>
+<body style="background-color: black;">
 
-<h1><a href="Signup.HTML"><button>Sign up</button></a></h1>
-<h2><a href="Login.html"><button>Log in</button></a></h2>
 
 
 <script src="Signup.js"></script>
@@ -47,21 +44,25 @@
 </script>
 
 <div class="container">
+    <img src="Add a heading.png" alt="Snow" style="width:40%;"><br><br>
     <form id="signupForm" action="/api/signup" method="POST">
-        <label for="username">Username:</label><br><br>
-        <input type="text" id="username" name="username" placeholder="Your Username"><br><br>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" placeholder="Your Username"><br>
+<br>
+        <label for="password">Password:</label><br>
 
-        <label for="password">Password:</label><br><br>
-        <input type="password" id="password" name="password" placeholder="Your Password">
-        <button type="button" onclick="togglePasswordVisibility()">Show/Hide Password</button> <br><br>
+        <input type="password" style="width: 100%"  id="password" name="password" placeholder="Your Password">
+
+        <img src="showpasswordicon.png" style="width:10%;" onclick="togglePasswordVisibility()"><br>
+
 
         <br><label for="cpassword">Confirm Password:</label><br>
-        <input type="password" id="cpassword" name="cpassword" placeholder="Your Password"><br><br>
+        <input type="password" id="cpassword" name="cpassword" placeholder="Your Password"><br> <br>
 
-        <label for="location">Location (address):</label><br><br>
-        <input type="text" id="location" name="location" placeholder="Your Adress"><br><br>
+        <label for="location">Location (address):</label><br>
+        <input type="text" id="location" name="location" placeholder="Your Adress"><br>
 
-        <span id="error-message" style="color: red; display: none;">Passwords don't match up</span><br><br>
+        <span id="error-message" style="color: red; display: none;"><br>Passwords don't match up</span><br>
         <input type="submit" value="Submit">
     </form>
 

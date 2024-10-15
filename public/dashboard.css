@@ -1,0 +1,241 @@
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 400 to 800
+
+.eb-garamond-<uniquifier> {
+                  font-family: "EB Garamond", serif;
+                  font-optical-sizing: auto;
+                  font-weight: <weight>;
+                  font-style: normal;
+              }
+
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 100 to 900
+
+.work-sans-<uniquifier> {
+                font-family: "Work Sans", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: <weight>;
+                font-style: normal;
+            }
+
+h1{
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    justify-content: center;
+}
+.box {
+    background-color: #1d1f1f;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 3.5%;
+    width: 25%;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    color: aliceblue;
+
+
+}
+
+h1{
+    margin-top: 10px;
+}
+
+.hover-image {
+    transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.image-link:hover .hover-image {
+    transform: scale(1.2); /* Scale image to 110% */
+}
+
+
+.logo{
+    position: absolute;
+    font-size: 75%;
+    top: 3%;
+    left: 3%;
+    transform: translate(-3%, -3%);
+}
+
+.name, .date {
+    font-size: 16px;
+}
+.name {
+    font-weight: bold;
+}
+.date {
+    color: aliceblue;
+}
+
+.nav{
+    position: relative;
+    left: 40%;
+    transform: translate(-50%, -100%);
+    width: 100px;
+    height: auto;
+    border-color: black;
+    border-width: 10px;
+    align-items: center;
+}
+
+.navbuttons{
+    background-color: rgba(35, 35, 35, 0);
+    color: rgb(255, 255, 255);
+    border: 4px solid #0088ff; /* Green */
+    border-radius: 5px;
+}
+
+.Accept{
+    align-items: right;
+    background-color: rgba(15, 234, 15, 0.729);
+    width:50%;
+    border-radius: 15px;
+    border-width: 0;
+    padding: 3%;
+
+
+}
+
+.Accepted{
+    border-radius: 15px;
+    background-color: rgba(133, 133, 135, 0);
+
+    color: aliceblue;
+}
+
+    .grad{
+        height: 200px;
+        background-color: red; /* For browsers that do not support gradients */
+        background-image: linear-gradient(to bottom right, rgb(255, 17, 0), yellow);
+    }
+
+    .poppins-thin {
+        font-family: "Poppins", sans-serif;
+        font-weight: 100;
+        font-style: normal;
+    }
+
+    .poppins-extralight {
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-style: normal;
+    }
+
+    .poppins-light {
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    .poppins-regular {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .poppins-medium {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    .poppins-semibold {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+    }
+
+    .poppins-bold {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+    }
+
+    .poppins-extrabold {
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        font-style: normal;
+    }
+
+    .poppins-black {
+        font-family: "Poppins", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+    }
+
+    .poppins-thin-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 100;
+        font-style: italic;
+    }
+
+    .poppins-extralight-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-style: italic;
+    }
+
+    .poppins-light-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-style: italic;
+    }
+
+    .poppins-regular-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: italic;
+    }
+
+    .poppins-medium-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    .poppins-semibold-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 600;
+        font-style: italic;
+    }
+
+    .poppins-bold-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-style: italic;
+    }
+
+    .poppins-extrabold-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 800;
+        font-style: italic;
+    }
+
+    .poppins-black-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 900;
+        font-style: italic;
+    }
+

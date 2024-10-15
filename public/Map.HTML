@@ -1,48 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="map.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TomTom Maps Example</title>
-    <style>
-        /* Set the size of the map */
-        #map {
-            height: 800px;
-            width: 100%;
-        }
-        #pin-form {
-            margin: 20px;
-        }
-    </style>
     <!-- Include the TomTom Maps SDK -->
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script>
     <!-- Include the TomTom Maps CSS -->
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps.css">
-    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/.tomtom.min.js"></script>
+    <style>
+        /* Set the size of the map */
+        #map {
+            margin-top: 5%;
+            border-radius: 25px;
+            border-color: black;
+            border-width: 5px;
+            top: 40%;
+            left:22.5%;
+            height: 80vh;
+            width: 75%;
+        }
+        #pin-form {
+            margin: 20px;
+        }
+
+    </style>
+
 </head>
-<body>
-<h1><center>
-    <img src="Add a heading.png" style="width: 10%">Networking Portal</center></h1>
-
-<div id="map"></div>
-<div id="box-container"></div>
-
-<div id="pin-form">
-    <h2>Add a Pin</h2>
-    <form id="add-pin-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required>
-        <br><br>
-        <label for="latitude">Latitude:</label>
-        <input type="number" step="any" id="latitude" required>
-        <br><br>
-        <label for="longitude">Longitude:</label>
-        <input type="number" step="any" id="longitude" required>
-        <br><br>
-        <button type="submit">Add Pin</button>
-    </form>
+<body style="background-color: rgb(35, 35, 35);">
+<div class="left">
+    <h1>
+        <img src="Add a heading.png" style="width:30%">
+    </h1>
 </div>
 
+<div id="map"></div>
 
 <script>
     const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC';
@@ -52,35 +45,39 @@
     const map = tt.map({
         key: apiKey,
         container: 'map',
-        center: [0, 0], // Default center (can be adjusted)
-        zoom: 2
+        center: [-73.329470, 41.137740], // Default center (can be adjusted)
+        zoom: 12
     });
 
-    // Load existing pins from the backend
+    // Prepare heat map data container
+    let heatMapData = {
+        type: 'FeatureCollection',
+        features: []
+    };
+
+    // Load existing pins and generate heat map
     const loadPins = () => {
         fetch(apiUrl)
             .then(response => response.json())
             .then(pins => {
                 pins.forEach(pin => {
-                 //   console.log('Pin:', pin.location);
                     geoCodeAddress(pin.location);
                 });
             })
             .catch(error => console.error('Error loading pins:', error));
-
-
     };
+
     function geoCodeAddress(address) {
-        const apiKey = 'pk.4e7d542fb27c753e173543c95bf667e6';
-        const url = `https://us1.locationiq.com/v1/search.php?key=${apiKey}&q=${encodeURIComponent(address)}&format=json`;
+        const geoCodeApiKey = 'pk.4e7d542fb27c753e173543c95bf667e6';
+        const url = `https://us1.locationiq.com/v1/search.php?key=${geoCodeApiKey}&q=${encodeURIComponent(address)}&format=json`;
 
         fetch(url)
             .then(response => response.json())
             .then(data => {
                 if (data.length > 0) {
                     const location = data[0];
-                    console.log(`Latitude: ${location.lat}, Longitude: ${location.lon}`);
-                    addMarkerToMap(location.lat, location.lon, address)
+                    addLocationToHeatMap(location.lat, location.lon, address);
+                    addMarkerToMap(location.lat, location.lon, address); // Add the pin here
                 } else {
                     console.log('No results found');
                 }
@@ -90,6 +87,7 @@
             });
     }
 
+    // Function to add markers to the map
     function addMarkerToMap(lat, lon, address) {
         const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
         const popup = new tt.Popup({ offset: 35 })
@@ -97,8 +95,60 @@
         marker.setPopup(popup).togglePopup();
     }
 
+    function addLocationToHeatMap(lat, lon, address) {
+        // Add the location to heat map data
+        heatMapData.features.push({
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: [lon, lat]
+            },
+            properties: {
+                weight: 1  // You can customize this value based on request importance
+            }
+        });
 
-        // Initial load of pins
+        // Update heatmap layer
+        updateHeatMapLayer();
+    }
+
+    function updateHeatMapLayer() {
+        // If heatmap layer already exists, remove it
+        if (map.getLayer('request-heatmap')) {
+            map.removeLayer('request-heatmap');
+            map.removeSource('heatmapSource');
+        }
+
+        // Add new heatmap source and layer
+        map.addSource('heatmapSource', {
+            type: 'geojson',
+            data: heatMapData
+        });
+
+        map.addLayer({
+            id: 'request-heatmap',
+            type: 'heatmap',
+            source: 'heatmapSource',
+            paint: {
+                'heatmap-weight': ['get', 'weight'],
+                'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 15, 3],
+                'heatmap-color': [
+                    'interpolate',
+                    ['linear'],
+                    ['heatmap-density'],
+                    0, 'rgba(0, 0, 255, 0)',
+                    0.5, 'lime',
+                    0.7, 'yellow',
+                    1, 'red'
+                ],
+                // Increased the radius size here
+                'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 10, 15, 120],
+                'heatmap-opacity': 0.8
+            }
+        });
+    }
+
+    // Initial load of pins and heat map
     loadPins();
 </script>
 </body>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="Landing Page.css">
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: rgb(35, 35, 35);
+        }
+
+        h1 {
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 5%;
+            padding-top: 8%;
+
+        }
+
+        figure {
+            background-color: rgb(30, 28, 28);
+            border: 2px solid #ffffff;
+            border-radius: 8px;
+            padding: 3%;
+            transition: transform 0.3s;
+            width: 15%; /* Fixed width for uniformity */
+
+        }
+
+        figure:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .img1 {
+            max-width: 100%;
+            height: 125px; /* Set a fixed height */
+            object-fit: cover; /* Cover to maintain aspect ratio */
+            border-radius: 5px;
+        }
+
+        figcaption {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        hr {
+            margin: 40px 0;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<div class="logo">
+    <a href="Landing Page.HTML" class="image-link">
+        <img src="Add a Heading.png" style="width: 18%;," class="hover-image" />
+    </a>
+</div>
+
+<div class = "aboutus">
+    <a href="About us.png" class="image-link">
+        <img src="About us.png" style = "width: 100%;">
+    </a>
+</div>
+
+<br><br><br>
+
+<div class="image-gallery">
+    <figure>
+        <a href="Dashboard.html">
+            <img src="house icon.png" class="img1"  alt="Dashboard Icon">
+        </a>
+        <figcaption>Dashboard</figcaption>
+    </figure>
+    <figure>
+        <a href="Map.html">
+            <img src="map icon.png" class="img1" alt="Map Icon">
+        </a>
+        <figcaption>Map</figcaption>
+    </figure>
+    <figure>
+        <a href="Request.html">
+            <img src="Requests.png"  class="img1" alt="Requests Icon">
+        </a>
+        <figcaption>Requests</figcaption>
+    </figure>
+
+</div>
+
+</body>
+</html>

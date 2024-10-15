@@ -12,7 +12,7 @@
     <title>Display Multiple Inputs</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family:"Open Sans", sans-serif;
             margin: 20px;
         }
         .input-container {
@@ -31,7 +31,19 @@
             margin-left: 10px;
             float: left;
         }
+
+
+        #suggestions {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid rgb(255, 255, 255);
+            background-color: rgb(151, 151, 151);
+            width: 80%;
+            position: absolute;
+            z-index: 1000;
+        }
     </style>
+
 
 
     <link rel="stylesheet" href="request.css">
@@ -39,6 +51,7 @@
     <title></title>
 </head>
 <body>
+<body style="background-color: black;">
 
 
 <div class = "input-container">
@@ -48,8 +61,10 @@
             <label for="request" >What items do you need?</label><br>
             <input type="text" id="request" name="request" placeholder = "Press the ';' key after each Item"><br><br>
             <div class="output-container" id="output"></div><br><br>
+
             <label for="location">What is your location (address)?</label><br>
             <input type="text" id="location" name="location"><br><br>
+            <div id="suggestions"></div><br><br>
 
 
             <input type="submit" value="Submit">
@@ -60,21 +75,38 @@
 
 
 <script>
-    const inputField = document.getElementById('request');
-    const outputDiv = document.getElementById('output');
+    const locationInput = document.getElementById('location');
+    const suggestionsContainer = document.getElementById('suggestions');
 
-    inputField.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            const newItem = document.createElement('div');
-            newItem.className = 'output-item';
-            newItem.textContent = inputField.value;
-            outputDiv.appendChild(newItem);
-            inputField.value = '';  // Clear the input field after displaying the text
-        }
+    locationInput.addEventListener('input', function () {
+        const query = locationInput.value;
+
+
+        fetch(`https://us1.locationiq.com/v1/autocomplete.php?key=pk.4e7d542fb27c753e173543c95bf667e6&q=${encodeURIComponent(query)}&format=json`)
+            .then(response => response.json())
+            .then(data => {
+                suggestionsContainer.innerHTML = '';
+
+                data.forEach(result => {
+                    const suggestion = document.createElement('div');
+                    suggestion.textContent = result.display_name;
+                    suggestion.classList.add('suggestion-item');
+
+                    suggestion.addEventListener('click', () => {
+                        locationInput.value = result.display_name;
+                        suggestionsContainer.innerHTML = '';
+                    });
+
+                    suggestionsContainer.appendChild(suggestion);
+                });
+            })
+            .catch(error => console.error('Error fetching autocomplete results:', error));
     });
+
 </script>
 
 
 </body>
 </html>
+
+

@@ -1,53 +1,99 @@
+// signup.js
+
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
 const connection = require('../db');
 
+// Signup Route
 router.post('/signup', (req, res) => {
-    console.log(req.body);
+    console.log('Signup request received:', req.body);
     const { username, password, location } = req.body;
+    const checkUserInput = 'SELECT * FROM users WHERE username = ?';
     const query = 'INSERT INTO users (username, password, location) VALUES (?, ?, ?)';
 
-    connection.query(query, [username, password, location], (err, results) => {
+    connection.query(checkUserInput, [username], (err, results) => {
         if (err) {
-            console.error('Error inserting user into the database:', err);
-            res.status(500).send('Error inserting user into the database');
+            console.error('Error checking for existing user:', err);
+            res.status(500).send('Error checking for existing user');
             return;
         }
-        console.log('User successfully signed up');
-        res.redirect('/Dashboard.html');
+
+        if (results.length > 0) {
+            console.log('Username already exists');
+            res.redirect('/signupError.html');
+            return;
+        }
+
+        // Hash the password before inserting
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+            if (err) {
+                console.error('Error hashing password:', err);
+                res.status(500).send('Error hashing password');
+                return;
+            }
+
+            console.log('Hashed password:', hashedPassword); // Log the hashed password to verify
+
+            connection.query(query, [username, hashedPassword, location], (err, results) => {
+                if (err) {
+                    console.error('Error inserting user into the database:', err);
+                    res.status(500).send('Error inserting user into the database');
+                    return;
+                }
+
+                // Set session data for immediate login
+                req.session.user = {
+                    username: username,
+                    isLoggedIn: true
+                };
+                console.log('User successfully signed up and logged in');
+                res.redirect('/Dashboard.html');
+            });
+        });
     });
 });
 
-router.post('/login', (req, res) => {
+module.exports = router;
+
+
+// Login Route
+router.post('/login', async (req, res) => {
     console.log('login code');
     console.log(req.body);
     const { username, password } = req.body;
 
     const query = 'SELECT password FROM users WHERE username = ?';
 
-    connection.query(query, [username], (err, results) => {
+    connection.query(query, [username], async (err, results) => {
         if (err) {
             console.error('Error querying user into the database:', err);
-            res.status(500).send('database error');
+            res.status(500).send('Database error');
             return;
         }
+
         if (results.length > 0) {
-            console.log('stored password - ' + results[0].password);
-            if (password == results[0].password) {
+            const hashedPassword = results[0].password;
+
+            // Compare the provided password with the hashed password
+            const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
+
+            if (isPasswordMatch) {
                 req.session.user = {
                     username: username,
                     isLoggedIn: true
                 };
-                console.log('User successfully signed up');
-                res.redirect('/Dashboard.html');
+                console.log('User successfully logged in');
+                res.redirect('/Landing Page.html');
             } else {
-                res.redirect('/LoginError.html')
+                console.log('Password did not match');
+                res.redirect('/LoginError.html');
             }
         } else {
-            res.redirect('/LoginError.html')
+            console.log('User not found');
+            res.redirect('/LoginError.html');
         }
     });
 });
-
 
 module.exports = router;

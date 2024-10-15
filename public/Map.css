@@ -1,4 +1,36 @@
-h1{
-    text-align: center;
-    position: top;
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 300 to 800
+
+.open-sans-<uniquifier> {
+                font-family: "Open Sans", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: <weight>;
+                font-style: normal;
+                font-variation-settings:
+                        "wdth" 100;
+            }
+
+box-container{
+    border-radius: 25px;
+    border-color: black;
+    border-width: 5px;
+}
+
+.left{
+
+
+    position: absolute;
+    font-size: 75%;
+    top: 50%;
+    left: 31%;
+    transform: translate(-69%, -50%);
+
+    width: 40%;
+}
+
+.rectangle{
+    color: aliceblue;
+    font-family: "Open Sans", sans-serif;
+    font-size: 75%;
+    width: 40%;
 }
