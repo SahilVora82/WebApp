@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" type="image/x-icon" href="AddAHeading.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Active Requests</title>
@@ -71,7 +72,7 @@
                     actionButtonHTML += `
                 <form action="/api/deliver" method="POST">
                     <input type="hidden" name="numberID" value="${box.numberID}" />
-                    <button class="Deliver" type="submit">Mark as Delivered</button>
+                    <button class="Decline" type="submit">Mark as Delivered</button>
                 </form>
                 `;
                 } else if (box.delivered === "yes") {

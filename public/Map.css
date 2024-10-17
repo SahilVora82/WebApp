@@ -9,6 +9,14 @@
                 font-variation-settings:
                         "wdth" 100;
             }
+.image-gallery {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    margin: 1%;
+    color: aliceblue;
+}
 
 box-container{
     border-radius: 25px;
