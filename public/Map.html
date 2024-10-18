@@ -6,9 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map</title>
-    <!-- Include the TomTom Maps SDK -->
     <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script>
-    <!-- Include the TomTom Maps CSS -->
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps.css">
     <style>
         /* Set the size of the map */
@@ -63,8 +61,10 @@
         fetch(apiUrl)
             .then(response => response.json())
             .then(pins => {
-                pins.forEach(pin => {
-                    geoCodeAddress(pin.location);
+                pins.forEach((pin, index) => {
+                    setTimeout(() => {
+                        geoCodeAddress(pin.location);
+                    }, index * 500); // Adding a delay of 1 second between each geocoding request
                 });
             })
             .catch(error => console.error('Error loading pins:', error));
