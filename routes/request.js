@@ -6,7 +6,7 @@ const connection = require('../db');
 function isAuthenticated(req, res, next) {
     if (req.session.user && req.session.user.isLoggedIn) {
         console.log("already logged in");
-        return next(); // Continue if the user is authenticated
+        return next();
     } else {
         res.status(401).send('Unauthorized: Please log in');
     }
@@ -31,7 +31,6 @@ router.post('/request', isAuthenticated, (req, res) => {
 });
 
 router.get('/get-requests', isAuthenticated, (req, res) => {
-    // Fetch all requests including the `delivered` status
     const query = 'SELECT username, request, location, requester_name, accepted, delivered, numberID FROM requests';
 
     connection.query(query, (err, results) => {
@@ -41,10 +40,9 @@ router.get('/get-requests', isAuthenticated, (req, res) => {
             return;
         }
 
-        // Send back the requests along with the logged-in user's username
         res.json({
-            boxes: results,               // Requests from the database
-            loggedInUsername: req.session.user.username // Logged-in user's username
+            boxes: results,
+            loggedInUsername: req.session.user.username
         });
     });
 });
@@ -67,7 +65,6 @@ router.get('/location', (req, res) => {
 router.post('/deliver', isAuthenticated, (req, res) => {
     const numberID = req.body.numberID;
 
-    // Update the request to mark it as delivered
     const query = 'UPDATE requests SET delivered = "yes" WHERE numberID = ?';
 
     connection.query(query, [numberID], (err, results) => {
@@ -78,7 +75,7 @@ router.post('/deliver', isAuthenticated, (req, res) => {
         }
 
         console.log('Request marked as delivered');
-        res.redirect('/Dashboard.html'); // Redirect back to dashboard
+        res.redirect('/Dashboard.html');
     });
 });
 

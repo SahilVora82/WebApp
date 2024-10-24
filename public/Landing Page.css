@@ -50,11 +50,11 @@ hr {
 }
 
 .hover-image {
-    transition: transform 0.3s ease; /* Smooth transition */
+    transition: transform 0.3s ease;
 }
 
 .image-link:hover .hover-image {
-    transform: scale(1.2); /* Scale image to 110% */
+    transform: scale(1.2);
 }
 
 

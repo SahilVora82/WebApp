@@ -1,18 +1,9 @@
-// <uniquifier>: Use a unique and descriptive class name
-// <weight>: Use a value from 400 to 800
-
 .eb-garamond-<uniquifier> {
                   font-family: "EB Garamond", serif;
                   font-optical-sizing: auto;
                   font-weight: <weight>;
                   font-style: normal;
               }
-
-// <uniquifier>: Use a unique and descriptive class name
-// <weight>: Use a value from 100 to 900
-
-// <uniquifier>: Use a unique and descriptive class name
-// <weight>: Use a value from 100 to 900
 
 .work-sans-<uniquifier> {
                 font-family: "Work Sans", sans-serif;
@@ -83,11 +74,11 @@ h1{
 }
 
 .hover-image {
-    transition: transform 0.3s ease; /* Smooth transition */
+    transition: transform 0.3s ease;
 }
 
 .image-link:hover .hover-image {
-    transform: scale(1.2); /* Scale image to 110% */
+    transform: scale(1.2);
 }
 
 
@@ -123,7 +114,7 @@ h1{
 .navbuttons{
     background-color: rgba(35, 35, 35, 0);
     color: rgb(255, 255, 255);
-    border: 4px solid #0088ff; /* Green */
+    border: 4px solid #0088ff;
     border-radius: 5px;
 }
 
@@ -166,12 +157,12 @@ h1{
 }
 
 .Decline a:hover {
-     transform: scale(1.2); /* Scale image to 110% */
+     transform: scale(1.2);
  }
 
 .grad{
     height: 200px;
-    background-color: red; /* For browsers that do not support gradients */
+    background-color: red;
     background-image: linear-gradient(to bottom right, rgb(255, 17, 0), yellow);
 }
 

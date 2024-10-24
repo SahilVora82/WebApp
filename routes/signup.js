@@ -1,11 +1,9 @@
-// signup.js
 
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const connection = require('../db');
 
-// Signup Route
 router.post('/signup', (req, res) => {
     console.log('Signup request received:', req.body);
     const { username, password, location } = req.body;
@@ -25,7 +23,6 @@ router.post('/signup', (req, res) => {
             return;
         }
 
-        // Hash the password before inserting
         bcrypt.hash(password, 10, (err, hashedPassword) => {
             if (err) {
                 console.error('Error hashing password:', err);
@@ -33,7 +30,7 @@ router.post('/signup', (req, res) => {
                 return;
             }
 
-            console.log('Hashed password:', hashedPassword); // Log the hashed password to verify
+            console.log('Hashed password:', hashedPassword);
 
             connection.query(query, [username, hashedPassword, location], (err, results) => {
                 if (err) {
@@ -42,7 +39,6 @@ router.post('/signup', (req, res) => {
                     return;
                 }
 
-                // Set session data for immediate login
                 req.session.user = {
                     username: username,
                     isLoggedIn: true
@@ -57,7 +53,6 @@ router.post('/signup', (req, res) => {
 module.exports = router;
 
 
-// Login Route
 router.post('/login', async (req, res) => {
     console.log('login code');
     console.log(req.body);
@@ -75,7 +70,6 @@ router.post('/login', async (req, res) => {
         if (results.length > 0) {
             const hashedPassword = results[0].password;
 
-            // Compare the provided password with the hashed password
             const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
             if (isPasswordMatch) {

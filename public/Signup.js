@@ -17,10 +17,7 @@ function checkPasswords() {
     var cpasswordInput = document.getElementById('cpassword');
     var errorMessage = document.getElementById('error-message');
 
-    /*
-        console.log("password length:", passwordField.length); //just for debugging and checking if it works
-        console.log("cpassword length:", cpasswordField.length);// don't need this anymore.
-    */
+
     if (cpasswordField.length >= 1) {
         if (passwordField === cpasswordField) {
             console.log("works");

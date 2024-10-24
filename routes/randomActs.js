@@ -12,7 +12,7 @@ router.get('/random-act', (req, res) => {
             return res.status(500).send('Error fetching random act');
         }
 
-        console.log('Query result:', results); // Add this line to check the output
+        console.log('Query result:', results);
 
         res.json({ message: results.length > 0 ? results[0].message : 'Be kind today!' });
     });

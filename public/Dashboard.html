@@ -31,30 +31,26 @@
 </h1>
 
 
-<!--<div id="grad"></div>
-<button style =" border-radius: 10px" onclick="changeGradient('blue')">Blue Gradient</button>
-    <button style =" border-radius: 10px" onclick="changeGradient('red')">Red Gradient</button>
-    <button style =" border-radius: 10px" onclick="changeGradient('green')">Green Gradient</button>
--->
+
 
 <br>
 <div class="box-container" id="box-container"></div>
 
 <script>
 
-    function createBoxes(boxes, loggedInUsername) {
+    function createBoxes(boxes, loggedInUsername) {  //making boxes function
         const container = document.getElementById('box-container');
-        container.innerHTML = ''; // Clear existing boxes to avoid duplicates
+        container.innerHTML = ''; //clear existing boxes to avoid duplicates
 
         boxes.forEach(box => {
             const boxElement = document.createElement('div');
             boxElement.className = 'box';
             let actionButtonHTML = '';
 
-            // If the request has been accepted
-            if (box.accepted === "yes") {
-                // Check if the logged-in user is the one who accepted the request (for declining)
-                if (box.requester_name === loggedInUsername && box.delivered === "no") {
+
+            if (box.accepted === "yes") { //set up so different things happen for different users/boxes
+
+                if (box.requester_name === loggedInUsername && box.delivered === "no") { //checking user = loged in
                     actionButtonHTML += `
                 <button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>
                 <form action="/api/decline" method="POST">
@@ -63,11 +59,9 @@
                 </form>
                 `;
                 } else {
-                    // If someone else accepted, just show the "Accepted by" message
                     actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
                 }
 
-                // Check if the logged-in user is the one who made the request (for marking as delivered)
                 if (box.username === loggedInUsername && box.delivered === "no") {
                     actionButtonHTML += `
                 <form action="/api/deliver" method="POST">
@@ -79,7 +73,6 @@
                     actionButtonHTML += `<button class="Delivered" disabled>Delivered</button>`;
                 }
             } else {
-                // If the request has not been accepted yet, show the "Accept Request" button
                 actionButtonHTML = `
             <form action="/api/accept" method="POST">
                 <input type="hidden" name="numberID" value="${box.numberID}" />
@@ -105,7 +98,7 @@
             const boxes = data.boxes;
             const loggedInUsername = data.loggedInUsername;
 
-            createBoxes(boxes, loggedInUsername); // Pass the data to create the boxes
+            createBoxes(boxes, loggedInUsername);
         })
         .catch(error => {
             console.error('Error fetching data:', error);

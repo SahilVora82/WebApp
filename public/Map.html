@@ -6,10 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map</title>
-    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script>
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps-web.min.js"></script> <!-- apis -->
     <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.17.0/maps/maps.css">
     <style>
-        /* Set the size of the map */
         #map {
             margin-top: 5%;
             border-radius: 25px;
@@ -20,7 +19,6 @@
             height: 80vh;
             width: 75%;
         }
-        #pin-form {
             margin: 20px;
         }
 
@@ -42,21 +40,20 @@
     const apiKey = '3DBdshJT7HnMSLe2whuG1ANnRAmhIEBC';
     const apiUrl = '/api/location';
 
-    // Initialize the TomTom map
     const map = tt.map({
         key: apiKey,
         container: 'map',
-        center: [-73.329470, 41.137740], // Default center (can be adjusted)
+        center: [-73.329470, 41.137740],
         zoom: 12
     });
 
-    // Prepare heat map data container
+    //heat map
     let heatMapData = {
         type: 'FeatureCollection',
         features: []
     };
 
-    // Load existing pins and generate heat map
+
     const loadPins = () => {
         fetch(apiUrl)
             .then(response => response.json())
@@ -64,7 +61,7 @@
                 pins.forEach((pin, index) => {
                     setTimeout(() => {
                         geoCodeAddress(pin.location);
-                    }, index * 500); // Adding a delay of 1 second between each geocoding request
+                    }, index * 500); // add a delay so that it doesnt overload the API
                 });
             })
             .catch(error => console.error('Error loading pins:', error));
@@ -80,7 +77,7 @@
                 if (data.length > 0) {
                     const location = data[0];
                     addLocationToHeatMap(location.lat, location.lon, address);
-                    addMarkerToMap(location.lat, location.lon, address); // Add the pin here
+                    addMarkerToMap(location.lat, location.lon, address);
                 } else {
                     console.log('No results found');
                 }
@@ -90,7 +87,6 @@
             });
     }
 
-    // Function to add markers to the map
     function addMarkerToMap(lat, lon, address) {
         const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
         const popup = new tt.Popup({ offset: 35 })
@@ -99,7 +95,6 @@
     }
 
     function addLocationToHeatMap(lat, lon, address) {
-        // Add the location to heat map data
         heatMapData.features.push({
             type: 'Feature',
             geometry: {
@@ -107,22 +102,19 @@
                 coordinates: [lon, lat]
             },
             properties: {
-                weight: 1  // You can customize this value based on request importance
+                weight: 1
             }
         });
 
-        // Update heatmap layer
         updateHeatMapLayer();
     }
 
     function updateHeatMapLayer() {
-        // If heatmap layer already exists, remove it
         if (map.getLayer('request-heatmap')) {
             map.removeLayer('request-heatmap');
             map.removeSource('heatmapSource');
         }
 
-        // Add new heatmap source and layer
         map.addSource('heatmapSource', {
             type: 'geojson',
             data: heatMapData
@@ -134,7 +126,7 @@
             source: 'heatmapSource',
             paint: {
                 'heatmap-weight': ['get', 'weight'],
-                'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 15, 3],
+                'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 15, 3], // heat map customizations
                 'heatmap-color': [
                     'interpolate',
                     ['linear'],
@@ -144,14 +136,12 @@
                     0.7, 'yellow',
                     1.05, 'red'
                 ],
-                // Increased the radius size here
                 'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 10, 15, 120],
                 'heatmap-opacity': 0.8
             }
         });
     }
 
-    // Initial load of pins and heat map
     loadPins();
 </script>
 </body>
