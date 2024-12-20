@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
                     isLoggedIn: true
                 };
                 console.log('User successfully logged in');
-                res.redirect('/Landing Page.html');
+                res.redirect('/LandingPage.html');
             } else {
                 console.log('Password did not match');
                 res.redirect('/LoginError.html');
