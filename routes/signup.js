@@ -44,7 +44,7 @@ router.post('/signup', (req, res) => {
                     isLoggedIn: true
                 };
                 console.log('User successfully signed up and logged in');
-                res.redirect('/Dashboard.html');
+                res.redirect('/LandingPage.html');
             });
         });
     });
