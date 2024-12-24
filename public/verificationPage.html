@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="AddAHeading.png">
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="Signup.css">
+    <style>
+        input[type=password],
+        input[type=text] {
+
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            background-color: rgb(62, 222, 62);
+            border-radius: 8px;
+            font-family: "cambria",sans-serif,bold;
+            font-size: 20px;
+            box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.2);
+            color: black;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="Testing.css">
+</head>
+<body style="background-color: black;">
+
+<div class="container">
+    <img src="AddAHeading.png" alt="Snow" style="width:40%;"><br><br>
+    <form id="verificationForm" action="/api/tokenVerification" method="POST">
+
+        <label for="verification_token">Verification code:</label><br>
+        <input type="text" id="verification_token" name="verification_token" placeholder="Your verification id:"><br>
+
+
+        <input type="submit" value="Verify Token">
+
+    </form>
+
+</div>
+
+
+</body>
+</html>
