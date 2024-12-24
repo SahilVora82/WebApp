@@ -26,6 +26,9 @@ router.post('/signup', (req, res) => {
     console.log('Signup parameters:', username, password, location, email);
     const checkUserInput = 'SELECT * FROM users WHERE username = ?';
     const query = 'INSERT INTO users (username, password, location, email, verification_token) VALUES (?, ?, ?, ?, ?)';
+    const verification_token = Math.floor(100000 + Math.random() * 900000);
+
+
 
     connection.query(checkUserInput, [username], (err, results) => {
         if (err) {
@@ -50,7 +53,7 @@ router.post('/signup', (req, res) => {
 
             console.log('Hashed password:', hashedPassword);
 
-            connection.query(query, [username, hashedPassword, location, email, token], (err, results) => {
+            connection.query(query, [username, hashedPassword, location, email, verification_token], (err, results) => {
                 if (err) {
                     console.error('Error inserting user into the database:', err);
                     res.status(500).send('Error inserting user into the database');
@@ -66,7 +69,7 @@ router.post('/signup', (req, res) => {
                     html: `
                         <p>Welcome to Neighborly Network!</p>
                         <p>Please verify your email by clicking the link below:</p>
-                        <a href="${verificationLink}">Verify Email</a>
+                       <h1>${verification_token}</h1>
                     `
                 };
 
@@ -78,7 +81,7 @@ router.post('/signup', (req, res) => {
                     }
 
                     console.log('Verification email sent:', info.response);
-                    res.send('Signup successful! Please check your email to verify your account.');
+                    res.redirect('/verificationPage.html');
                 });
             });
         });
@@ -87,22 +90,30 @@ router.post('/signup', (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-    console.log('login code');
-    console.log(req.body);
+    console.log('Login attempt received:', req.body);
     const { username, password } = req.body;
 
-    const query = 'SELECT password FROM users WHERE username = ?';
+    // Query to get the password and verification status for the given username
+    const query = 'SELECT password, email_verified FROM users WHERE username = ?';
 
     connection.query(query, [username], async (err, results) => {
         if (err) {
-            console.error('Error querying user into the database:', err);
+            console.error('Error querying user from the database:', err);
             res.status(500).send('Database error');
             return;
         }
 
         if (results.length > 0) {
-            const hashedPassword = results[0].password;
+            const { password: hashedPassword, email_verified } = results[0];
 
+            // Check if the account is verified
+            if (email_verified !== 1) {
+                console.log('User account is not verified');
+                res.redirect('/AccountNotVerified.html'); // Redirect to an account verification error page
+                return;
+            }
+
+            // Verify the password
             const isPasswordMatch = await bcrypt.compare(password, hashedPassword);
 
             if (isPasswordMatch) {
@@ -111,16 +122,17 @@ router.post('/login', async (req, res) => {
                     isLoggedIn: true
                 };
                 console.log('User successfully logged in');
-                res.redirect('/LandingPage.html');
+                res.redirect('/LandingPage.html'); // Redirect to the landing page
             } else {
                 console.log('Password did not match');
-                res.redirect('/LoginError.html');
+                res.redirect('/LoginError.html'); // Redirect to login error page
             }
         } else {
             console.log('User not found');
-            res.redirect('/LoginError.html');
+            res.redirect('/LoginError.html'); // Redirect to login error page
         }
     });
 });
+
 
 module.exports = router;
