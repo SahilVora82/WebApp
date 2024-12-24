@@ -1,14 +1,31 @@
-
+const nodemailer = require('nodemailer'); // Import nodemailer
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const connection = require('../db');
+const crypto = require('crypto');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'networkneighborly@gmail.com', // Replace with your email
+        pass: 'xeudutnqlwskhbfs'    // Replace with your app-specific password
+    }
+});
+
+
+function generateToken() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
+
 
 router.post('/signup', (req, res) => {
     console.log('Signup request received:', req.body);
-    const { username, password, location } = req.body;
+    const { username, password, location, email } = req.body;
+    console.log('Signup parameters:', username, password, location, email);
     const checkUserInput = 'SELECT * FROM users WHERE username = ?';
-    const query = 'INSERT INTO users (username, password, location) VALUES (?, ?, ?)';
+    const query = 'INSERT INTO users (username, password, location, email, verification_token) VALUES (?, ?, ?, ?, ?)';
 
     connection.query(checkUserInput, [username], (err, results) => {
         if (err) {
@@ -29,28 +46,44 @@ router.post('/signup', (req, res) => {
                 res.status(500).send('Error hashing password');
                 return;
             }
+            const token = generateToken();
 
             console.log('Hashed password:', hashedPassword);
 
-            connection.query(query, [username, hashedPassword, location], (err, results) => {
+            connection.query(query, [username, hashedPassword, location, email, token], (err, results) => {
                 if (err) {
                     console.error('Error inserting user into the database:', err);
                     res.status(500).send('Error inserting user into the database');
                     return;
                 }
 
-                req.session.user = {
-                    username: username,
-                    isLoggedIn: true
+                // Send the verification email
+                const verificationLink = `http://localhost:3000/api/verify-email?token=${token}`;
+                const mailOptions = {
+                    from: '"Neighborly Network" <networkneighborly@gmail.com>',
+                    to: email,
+                    subject: 'Verify Your Email',
+                    html: `
+                        <p>Welcome to Neighborly Network!</p>
+                        <p>Please verify your email by clicking the link below:</p>
+                        <a href="${verificationLink}">Verify Email</a>
+                    `
                 };
-                console.log('User successfully signed up and logged in');
-                res.redirect('/LandingPage.html');
+
+                transporter.sendMail(mailOptions, (err, info) => {
+                    if (err) {
+                        console.error('Error sending verification email:', err);
+                        res.status(500).send('Error sending verification email');
+                        return;
+                    }
+
+                    console.log('Verification email sent:', info.response);
+                    res.send('Signup successful! Please check your email to verify your account.');
+                });
             });
         });
     });
 });
-
-module.exports = router;
 
 
 router.post('/login', async (req, res) => {
