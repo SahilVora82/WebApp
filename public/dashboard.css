@@ -45,24 +45,34 @@ body {
 .box-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
+    gap: 25px;
+    max-width: 100%;
     justify-content: center;
+    padding: 1%;
+
 }
 .box {
     background-color: #1d1f1f;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 3.5%;
-    width: 25%;
-    height: 150px;
+    width: 40%;
+    height: 35%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-align: center;
     color: aliceblue;
+    line-height: 1.8; /* Adjust this value to set the spacing */
+    padding: 3.5%; /* Optional: Add padding for better spacing within the box */
+}
 
-
+.box-container2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    justify-content: center;
 }
 
 .button{
@@ -145,15 +155,20 @@ h1{
     border-radius: 15px;
     border-width: 0;
     padding: 3%;
+    margin:3%;
+    align-items: right;
 }
 
 .Accepted{
+    
     background-color: rgba(255, 255, 255, 0.58);
     border-color: transparent;
     border-radius: 15px;
     border-width: 2px;
     color: black;
     margin: 3%;
+    width: 50%;
+    padding: 3%;
 }
 
 .Decline a:hover {
