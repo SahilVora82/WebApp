@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Tab Icon -->
+    <link rel="icon" type="image/x-icon" href="AddAHeading.png">
+    
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Title -->
+    <title>Active Requests</title>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    
+    <!-- Additional Font Import -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+    </style>
+</head>
+
+<body style="background-color: rgb(16, 16, 16);">
+    <!-- Logo Section -->
+    <div class="logo">
+        <a href="LandingPage.html" class="image-link">
+            <img src="AddAHeading.png" style="width: 15%;" class="hover-image" alt="Logo" />
+        </a>
+    </div>
+
+    <!-- Page Title and Action Buttons -->
+    <h1 style="color:white">Your Requests Made
+        <a href="Request.html">
+            <span class="material-symbols-outlined" style="color: aliceblue;">add_circle</span>
+        </a>
+        <span class="material-symbols-outlined" onclick="location.reload()">refresh</span>
+    </h1>
+
+    <!-- User Requests Container -->
+    <h4>
+        <div class="box-container" id="box-container"></div>
+    
+    </h4>
+    <!-- Separator -->
+    <br><br>
+
+    <!-- Accepted Requests Section -->
+    <h1 style="color:white">Requests You Have Accepted</h1>
+    <h4>
+        <div class="box-container" id="accepted-box-container"></div>
+    </h4>
+
+    <!-- JavaScript Section -->
+    <script>
+        /**
+         * Dynamically creates boxes for requests based on the provided data.
+         * @param {Array} boxes - Array of request objects.
+         * @param {string} loggedInUsername - Username of the logged-in user.
+         */
+        function createBoxes(boxes, loggedInUsername) {
+            const container = document.getElementById('box-container');
+            container.innerHTML = ''; // Clear any existing content
+
+            // Filter requests that belong to the logged-in user
+            const userRequests = boxes.filter(box => box.username === loggedInUsername);
+
+            userRequests.forEach(box => {
+                const boxElement = document.createElement('div');
+                boxElement.className = 'box';
+                let actionButtonHTML = '';
+
+                // Generate buttons based on request status
+                if (box.accepted === "yes") {
+                    actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
+                    if (box.delivered === "no") {
+                        actionButtonHTML += `
+                            <form action="/api/deliver" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="Deliver" type="submit">Mark as Delivered</button>
+                            </form>
+                        `;
+                    } else {
+                        actionButtonHTML += `<button class="Delivered" disabled>Delivered</button>`;
+                    }
+                } else {
+                    actionButtonHTML = `
+                   
+                        <form action="/api/accept" method="POST">
+                            <input type="hidden" name="numberID" value="${box.numberID}" />
+                            <button class="Accept" type="submit">Accept Request</button>
+                        </form>
+                    `;
+                }
+
+                // Populate box content
+                boxElement.innerHTML = `
+                    <div class="name">${box.username}</div>
+                    <div class="request">${box.request}</div>
+                    <div class="location">${box.location}</div>
+                    ${actionButtonHTML}
+                `;
+                container.appendChild(boxElement);
+            });
+
+            // Display message if no requests are found
+            if (userRequests.length === 0) {
+                container.innerHTML = `<p>No requests found for your account.</p>`;
+            }
+        }
+
+        /**
+         * Dynamically creates boxes for accepted requests.
+         * @param {Array} boxes - Array of request objects.
+         * @param {string} loggedInUsername - Username of the logged-in user.
+         */
+        function createAcceptedBoxes(boxes, loggedInUsername) {
+            const container = document.getElementById('accepted-box-container');
+            container.innerHTML = ''; // Clear any existing content
+
+            // Filter requests that are accepted by the logged-in user
+            const acceptedRequests = boxes.filter(box => box.requester_name === loggedInUsername && box.accepted === "yes");
+
+            acceptedRequests.forEach(box => {
+                const boxElement = document.createElement('div');
+                boxElement.className = 'box';
+                let actionButtonHTML = '';
+
+                // Generate buttons based on delivery status
+                if (box.delivered === "no") {
+                    actionButtonHTML += `
+                        <form action="/api/deliver" method="POST">
+                            <input type="hidden" name="numberID" value="${box.numberID}" />
+                            <button class="Deliver" type="submit">Mark as Delivered</button>
+                        </form>
+                    `;
+                } else {
+                    actionButtonHTML += `<button class="Delivered" disabled>Delivered</button>`;
+                }
+
+                // Populate box content
+                boxElement.innerHTML = `
+                    <div class="name">Requested by: ${box.username}</div>
+                    <div class="request">${box.request}</div>
+                    <div class="location">${box.location}</div>
+                    ${actionButtonHTML}
+                `;
+                container.appendChild(boxElement);
+            });
+
+            // Display message if no accepted requests are found
+            if (acceptedRequests.length === 0) {
+                container.innerHTML = `<p>You have not accepted any requests yet.</p>`;
+            }
+        }
+
+        // Fetch data from the API and populate the request containers
+        fetch('/api/get-requests')
+            .then(response => response.json())
+            .then(data => {
+                const { boxes, loggedInUsername } = data;
+
+                createBoxes(boxes, loggedInUsername);
+                createAcceptedBoxes(boxes, loggedInUsername);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+</body>
+</html>
