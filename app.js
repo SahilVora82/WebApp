@@ -9,6 +9,7 @@ const session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var signupRouter = require('./routes/signup');
+var tokenRouter = require('./routes/tokenVerification');
 var requestRouter = require('./routes/request');
 var requestDisplay = require('./routes/request');
 var requestMap = require('./routes/request');
@@ -43,6 +44,7 @@ app.use('/users', usersRouter);
 app.use('/api', signupRouter);
 app.use('/api', requestRouter);
 app.use('/api', acceptingRequests);
+app.use('/api', tokenRouter);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
