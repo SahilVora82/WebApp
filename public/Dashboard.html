@@ -80,7 +80,7 @@
                 } else if (box.delivered === "yes") {
                     actionButtonHTML += `<button class="Delivered" disabled>Delivered</button>`;
                 }
-            } else {
+            } else if (box.username !== loggedInUsername) {
                 actionButtonHTML = `
             <form action="/api/accept" method="POST">
                 <input type="hidden" name="numberID" value="${box.numberID}" />
