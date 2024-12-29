@@ -7,6 +7,7 @@
     <title>Active Requests</title>
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+   
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -78,7 +79,11 @@
                 </form>
                 `;
                 } else if (box.delivered === "yes") {
-                    actionButtonHTML += `<button class="Delivered" disabled>Delivered</button>`;
+                    actionButtonHTML += `<button class="Delivered" disabled><b>Delivered</b> <br>
+                        <span class="material-symbols-outlined">
+check_circle
+</span>
+</button>`;
                 }
             } else if (box.username !== loggedInUsername) {
                 actionButtonHTML = `

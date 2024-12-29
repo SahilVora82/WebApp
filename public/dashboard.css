@@ -20,8 +20,8 @@ h1{
     
     position: absolute;
     left: 75%;
-    top: 10%;
-    transform:translate(-25%,-90%);
+    top: 7.5%;
+    transform:translate(-25%,-92.5%);
     font-size: 50%;
     border-radius: 20px;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 4px 10px 0 rgba(0,0,0,0.19);
@@ -144,24 +144,42 @@ h1{
 }
 
 .Accept{
-    align-items: right;
+    font-style: bold;
     background-color: rgba(15, 234, 15, 0.729);
     width:50%;
     border-radius: 15px;
     border-width: 0;
     padding: 3%;
-
-
+    margin-top: 2.5%;
+    font-size: larger;
+    font-weight: 600;
 }
 
 .Decline{
-
+    font-style: bold;
     background-color: #f3902c;
     width:50%;
     border-radius: 15px;
     border-width: 0;
     padding: 2%;
 
+}
+
+.Delivered{
+    background-color: rgb(0, 255, 21);
+    border-color: transparent;
+    border-radius: 15px;
+    border-width: 2px;
+    color: black;
+   padding: 3%;
+    width: 50%;
+    margin-top: 2.5%;
+    margin-bottom: 1%;
+    font-style: bold;
+    transform: translate(50%);
+    font-size: larger;
+    align-items: center;
+    
 }
 
 .Deliver{
@@ -175,15 +193,19 @@ h1{
 }
 
 .Accepted{
-    
-    background-color: rgba(255, 255, 255, 0.58);
+    font-style: bold;
+    background-color: rgb(15, 147, 180);
     border-color: transparent;
     border-radius: 15px;
     border-width: 2px;
     color: black;
-    margin: 3%;
-    width: 50%;
     padding: 3%;
+    width: 50%;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    font-size: larger;
+    transform: translate(50%);
+    font-weight: 600;
 }
 
 .Decline a:hover {
