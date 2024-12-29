@@ -16,6 +16,21 @@ h1{
     font-family: "Poppins", sans-serif;
 }
 
+.Signup{
+    
+    position: absolute;
+    left: 75%;
+    top: 10%;
+    transform:translate(-25%,-90%);
+    font-size: 50%;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2), 0 4px 10px 0 rgba(0,0,0,0.19);
+    color: aliceblue;
+    padding:2%;
+    
+    margin-top: 2%;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;

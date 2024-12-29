@@ -26,7 +26,7 @@ router.post('/request', isAuthenticated, (req, res) => {
             return;
         }
         console.log('Request successfully added');
-        res.redirect('/Dashboard.html');
+        res.redirect('/your-requests.html');
     });
 });
 
