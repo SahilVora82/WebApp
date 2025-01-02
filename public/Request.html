@@ -15,9 +15,14 @@
             font-family:"Open Sans", sans-serif;
             margin: 20px;
         }
-        .input-container {
-            margin-bottom: 20px;
-        }
+        input[type=text] {
+
+width: 100%;
+padding: 3% 5%;
+margin: 8px 0;
+box-sizing: border-box;
+font-family:"Open Sans", sans-serif;
+}
         .output-container {
             margin-top: 10px;
 
@@ -59,11 +64,11 @@
         <img src="AddAHeading.png" alt="Snow" style="width:40%;"><br><br>
         <form id="requests" action="/api/request" method="POST">
             <label for="request" >What items do you need?</label><br>
-            <input type="text" id="request" name="request" placeholder = "Press the ';' key after each Item"><br><br>
+            <input type="text" id="request" name="request" placeholder = "What are you looking for?"><br><br>
             <div class="output-container" id="output"></div><br><br>
 
             <label for="location">What is your location (address)?</label><br>
-            <input type="text" id="location" name="location"><br><br>
+            <input type="text" id="location" name="location" placeholder="Where should it be delivered?"><br><br>
             <div id="suggestions"></div><br><br>
 
 
@@ -80,29 +85,30 @@
 
     locationInput.addEventListener('input', function () {
         const query = locationInput.value;
+        const apiKey = '34cf68a9550546f4b6778f5c446d6718';
 
-
-        fetch(`https://us1.locationiq.com/v1/autocomplete.php?key=pk.4e7d542fb27c753e173543c95bf667e6&q=${encodeURIComponent(query)}&format=json`)
+        fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&apiKey=${apiKey}`)
             .then(response => response.json())
             .then(data => {
                 suggestionsContainer.innerHTML = '';
 
-                data.forEach(result => {
-                    const suggestion = document.createElement('div');
-                    suggestion.textContent = result.display_name;
-                    suggestion.classList.add('suggestion-item');
+                if (data.features) {
+                    data.features.forEach(feature => {
+                        const suggestion = document.createElement('div');
+                        suggestion.textContent = feature.properties.formatted;
+                        suggestion.classList.add('suggestion-item');
 
-                    suggestion.addEventListener('click', () => {
-                        locationInput.value = result.display_name;
-                        suggestionsContainer.innerHTML = '';
+                        suggestion.addEventListener('click', () => {
+                            locationInput.value = feature.properties.formatted;
+                            suggestionsContainer.innerHTML = '';
+                        });
+
+                        suggestionsContainer.appendChild(suggestion);
                     });
-
-                    suggestionsContainer.appendChild(suggestion);
-                });
+                }
             })
             .catch(error => console.error('Error fetching autocomplete results:', error));
     });
-
 </script>
 
 
