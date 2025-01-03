@@ -91,7 +91,7 @@
         const marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
         const popup = new tt.Popup({ offset: 35 })
             .setText(address);
-        marker.setPopup(popup).togglePopup();
+        marker.setPopup(popup);
     }
 
     function addLocationToHeatMap(lat, lon, address) {
