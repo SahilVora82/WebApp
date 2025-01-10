@@ -51,6 +51,22 @@ router.post('/decline', (req, res) => {
     });
 });
 
+router.post('/on-my-way', (req, res) => {
+    const username = req.session.user.username; // Logged-in user
+    const numberID = req.body.numberID;
+
+    const query = `
+        UPDATE requests 
+        SET on_my_way = 1 
+        WHERE numberID = ? AND requester_name = ?
+    `;
+
+    connection.query(query, [numberID, username], (err, results) => {
+        if (err) return res.status(500).send('Database error');
+        if (results.affectedRows === 0) return res.status(403).send('You are not authorized to update this request');
+        res.redirect('/your-requests.html');
+    });
+});
 
 
 
