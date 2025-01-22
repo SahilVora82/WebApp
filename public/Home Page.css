@@ -15,14 +15,14 @@
     background-color: #aaaaaa;
     position: absolute;
     font-size: 70%;
-    top: 90%;
+    top: 92%;
     left: 50%;
-    transform: translate(-50%, -90%);
+    transform: translate(-50%, -92%);
     color: black;
     padding: 1px;
     border-radius: 20px;
     width: 75%;
-    height: 10%;
+    
     float:left;
     align-items: center;
     justify-content: center;
@@ -120,6 +120,7 @@ p{
     border-width: 0;
     margin-top: 5%;
 }
+
 
 .Login{
     background-color: #edf4f800;
