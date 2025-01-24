@@ -127,34 +127,47 @@ check_circle
             container.innerHTML = ''; // Clear any existing content
 
             // Filter requests that are accepted by the logged-in user
-            const acceptedRequests = boxes.filter(box => box.requester_name === loggedInUsername && box.accepted === "yes");
+            const acceptedRequests = boxes.filter(
+                box => box.requester_name === loggedInUsername && box.accepted === "yes"
+            );
 
             acceptedRequests.forEach(box => {
                 const boxElement = document.createElement('div');
                 boxElement.className = 'box';
                 let actionButtonHTML = '';
 
-                // Generate buttons based on delivery status
-                if (box.delivered === "no") {
+                // Check if the request is delivered
+                if (box.delivered === "yes") {
                     actionButtonHTML += `
-                        <form action="/api/deliver" method="POST">
-                            <input type="hidden" name="numberID" value="${box.numberID}" />
-                            <button class="Deliver" type="submit">Mark as Delivered</button>
-                        </form>
-                    `;
+                <button class="Delivered" disabled>
+                    Delivered <span class="material-symbols-outlined">check_circle</span>
+                </button>
+            `;
                 } else {
-                    actionButtonHTML += `<button class="Delivered" disabled>Delivered <span class="material-symbols-outlined">
-check_circle
-</span></button>`;
+                    // Add all buttons (Picking Up Items, On My Way, etc.) if not delivered
+                    actionButtonHTML += `
+                <form action="/api/picking-up-item" method="POST">
+                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                    <button class="PickingUp" type="submit">Mark as Picking Up Items</button>
+                </form>
+                <form action="/api/on-my-way" method="POST">
+                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                    <button class="OnMyWay" type="submit">Mark as On My Way</button>
+                </form>
+                <form action="/api/deliver" method="POST">
+                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                    <button class="Deliver" type="submit">Mark as Delivered</button>
+                </form>
+            `;
                 }
 
                 // Populate box content
                 boxElement.innerHTML = `
-                    <div class="name">Requested by: ${box.username}</div>
-                    <div class="request">${box.request}</div>
-                    <div class="location">${box.location}</div>
-                    ${actionButtonHTML}
-                `;
+            <div class="name">Requested by: ${box.username}</div>
+            <div class="request">${box.request}</div>
+            <div class="location">${box.location}</div>
+            ${actionButtonHTML}
+        `;
                 container.appendChild(boxElement);
             });
 
@@ -163,6 +176,8 @@ check_circle
                 container.innerHTML = `<p>You have not accepted any requests yet.</p>`;
             }
         }
+
+
 
         // Fetch data from the API and populate the request containers
         fetch('/api/get-requests')
@@ -175,7 +190,6 @@ check_circle
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
-            });
-    </script>
+            });    </script>
 </body>
 </html>
