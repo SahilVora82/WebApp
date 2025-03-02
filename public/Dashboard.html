@@ -56,11 +56,8 @@
 
                 if (box.requester_name === loggedInUsername && box.delivered === "no") { //checking user = loged in
                     actionButtonHTML += `
-                <button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>
-                <form action="/api/decline" method="POST">
-                    <input type="hidden" name="numberID" value="${box.numberID}" />
-                    <button class="Decline" type="submit">Decline Request</button>
-                </form>
+                <button class="Accepted" disabled>Accepted by: You</button>
+                
                 `;
                 } else {
                     actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;

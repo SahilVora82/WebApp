@@ -12,18 +12,24 @@
     <title>Active Requests</title>
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="dashboard.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="your-requests.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-   
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-   
 
     <!-- Additional Font Import -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700,0,800;0,900&display=swap');
+
+        /* Ensure buttons appear next to each other */
+        button {
+            display: inline-block;
+            margin: 5px; /* Optional: Adds some space between buttons */
+        }
+
+        /* Wrap buttons in a flex container for better layout control */
+        .button-container {
+            display: flex;
+            gap: 10px; /* Optional: Adds space between buttons */
+        }
     </style>
 </head>
 
@@ -46,9 +52,7 @@
     <!-- User Requests Container -->
     <h4>
         <div class="box-container" id="box-container"></div>
-    
     </h4>
-    <!-- Separator -->
     <br><br>
 
     <!-- Accepted Requests Section -->
@@ -59,172 +63,150 @@
 
     <!-- JavaScript Section -->
     <script>
+        function createBoxes(boxes, loggedInUsername) {
+            const container = document.getElementById('box-container');
+            container.innerHTML = '';
 
-/**
- * Dynamically creates boxes for requests based on the provided data.
- * @param {Array} boxes - Array of request objects.
- * @param {string} loggedInUsername - Username of the logged-in user.
- */
- function createBoxes(boxes, loggedInUsername) {
-    const container = document.getElementById('box-container');
-    container.innerHTML = ''; // Clear any existing content
+            const userRequests = boxes.filter(box => box.username === loggedInUsername);
 
-    // Filter requests that belong to the logged-in user
-    const userRequests = boxes.filter(box => box.username === loggedInUsername);
+            userRequests.forEach(box => {
+                const boxElement = document.createElement('div');
+                boxElement.className = 'box';
+                let actionButtonHTML = '';
+                let statusImage = document.createElement('img'); 
 
-    userRequests.forEach(box => {
-        const boxElement = document.createElement('div');
-        boxElement.className = 'box';
-        let actionButtonHTML = '';
-        let statusImage = document.createElement('img'); 
+                statusImage.style.width = "calc(100% - 30px)";
+                statusImage.style.display = "block";
+                statusImage.style.margin = "10px auto";
+                statusImage.style.padding = "10px";
+                statusImage.style.borderRadius = "10px";
 
-statusImage.style.width = "calc(100% - 30px)"; // Full width with padding
-statusImage.style.display = "block";
-statusImage.style.margin = "10px auto"; // Center it
-statusImage.style.padding = "10px"; // Add padding
-statusImage.style.borderRadius = "10px"; // Optional: Rounded corners
+                if (box.accepted === "yes") {
+                    actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
+                    statusImage.src = "Order_Accepted__1_-removebg-preview.png";
 
+                    if (box.delivered === "no") {
+                        actionButtonHTML += `
+                            <div class="button-container">
+                                <form action="/api/deliver" method="POST">
+                                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                                    <button class="Deliver" type="submit">Mark as Delivered</button>
+                                </form>
+                            </div>
+                        `;
+                    } else {
+                        actionButtonHTML += `<button class="Delivered" disabled><b>Delivered</b><span class="material-symbols-outlined">check_circle</span></button>`;
+                        statusImage.src = "Delivered-removebg-preview.png";
+                    }
+                } else if (box.username !== loggedInUsername) {
+                    actionButtonHTML = `
+                        <form action="/api/accept" method="POST">
+                            <input type="hidden" name="numberID" value="${box.numberID}" />
+                            <button class="Accept" type="submit">Accept Request</button>
+                        </form>
+                    `;
+                    statusImage.src = "None.png";
+                }
 
-        // Generate buttons based on request status
-        if (box.accepted === "yes") {
-            actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
-            statusImage.src = "Order_Accepted__1_-removebg-preview.png"; // Update this with actual path
+                statusImage.alt = "Request Status";
+                statusImage.width = 200;
 
-            if (box.delivered === "no") {
-                actionButtonHTML += `
-                    <form action="/api/deliver" method="POST">
-                        <input type="hidden" name="numberID" value="${box.numberID}" />
-                        <button class="Deliver" type="submit">Mark as Delivered</button>
-                    </form>
+                boxElement.innerHTML = `
+                    <div class="name">${box.username}</div>
+                    <div class="request">${box.request}</div>
+                    <div class="location">${box.location}</div>
+                    ${actionButtonHTML}
                 `;
-            } else {
-                actionButtonHTML += `<button class="Delivered" disabled><b>Delivered</b><span class="material-symbols-outlined">check_circle</span></button>`;
-                statusImage.src = "Delivered-removebg-preview.png"; // Update this with actual path
+
+                boxElement.appendChild(statusImage);
+                container.appendChild(boxElement);
+            });
+
+            if (userRequests.length === 0) {
+                container.innerHTML = `<p>No requests found for your account.</p>`;
             }
-        } else if (box.username !== loggedInUsername) {
-            actionButtonHTML = `
-                <form action="/api/accept" method="POST">
-                    <input type="hidden" name="numberID" value="${box.numberID}" />
-                    <button class="Accept" type="submit">Accept Request</button>
-                </form>
-            `;
-            statusImage.src = "None.png"; // Default image for unaccepted requests
         }
 
-        // Set image properties
-        statusImage.alt = "Request Status";
-        statusImage.width = 200;
-        
+        function createAcceptedBoxes(boxes, loggedInUsername) {
+            const container = document.getElementById('accepted-box-container');
+            container.innerHTML = '';
 
-        // Populate box content
-        boxElement.innerHTML = `
-            <div class="name">${box.username}</div>
-            <div class="request">${box.request}</div>
-            <div class="location">${box.location}</div>
-            ${actionButtonHTML}
-        `;
+            const acceptedRequests = boxes.filter(
+                box => box.requester_name === loggedInUsername && box.accepted === "yes"
+            );
 
-        // Append image to the box
-        boxElement.appendChild(statusImage);
-        container.appendChild(boxElement);
-    });
+            acceptedRequests.forEach(box => {
+                const boxElement = document.createElement('div');
+                boxElement.className = 'box';
+                let actionButtonHTML = '';
+                let statusImage = document.createElement('img');
 
-    // Display message if no requests are found
-    if (userRequests.length === 0) {
-        container.innerHTML = `<p>No requests found for your account.</p>`;
-    }
-}
+                if (box.delivered === "yes") {
+                    actionButtonHTML += `
+                        <button class="Delivered" disabled>
+                            Delivered <span class="material-symbols-outlined">check_circle</span>
+                        </button>
+                    `;
+                    statusImage.src = "Delivered-removebg-preview.png";
+                } else if (box.pickingUp === "yes") {
+                    statusImage.src = "Order_Accepted__2_-removebg-preview.png"; // Image for picking up items
+                } else if (box.onMyWay === "yes") {
+                    statusImage.src = "Order_Accepted__3_-removebg-preview.png"; // Image for on my way
+                } else {
+                    actionButtonHTML += `
+                        <div class="button-container">
+                            <form action="/api/pickingup" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="PickingUp" type="submit">Mark as Picking Up Items</button>
+                            </form>
+                            <form action="/api/on-my-way" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="OnMyWay" type="submit">Mark as On My Way</button>
+                            </form>
+                            <form action="/api/deliver" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="Deliver" type="submit">Mark as Delivered</button>
+                            </form>
+                        </div>
+                    `;
+                    statusImage.src = "Order_Accepted__1_-removebg-preview.png";
+                }
 
-/**
- * Dynamically creates boxes for accepted requests.
- * @param {Array} boxes - Array of request objects.
- * @param {string} loggedInUsername - Username of the logged-in user.
- */
-function createAcceptedBoxes(boxes, loggedInUsername) {
-    const container = document.getElementById('accepted-box-container');
-    container.innerHTML = ''; // Clear any existing content
+                statusImage.style.width = "calc(100% - 20px)";
+                statusImage.style.display = "block";
+                statusImage.style.margin = "10px auto";
+                statusImage.style.padding = "10px";
+                statusImage.style.borderRadius = "10px";
 
-    // Filter requests that are accepted by the logged-in user
-    const acceptedRequests = boxes.filter(
-        box => box.requester_name === loggedInUsername && box.accepted === "yes"
-    );
+                statusImage.alt = "Request Status";
+                statusImage.width = 50;
 
-    acceptedRequests.forEach(box => {
-        const boxElement = document.createElement('div');
-        boxElement.className = 'box';
-        let actionButtonHTML = '';
-        let statusImage = document.createElement('img');
+                boxElement.innerHTML = `
+                    <div class="name">Requested by: ${box.username}</div>
+                    <div class="request">${box.request}</div>
+                    <div class="location">${box.location}</div>
+                    ${actionButtonHTML}
+                `;
 
-        // Check if the request is delivered
-        if (box.delivered === "yes") {
-            actionButtonHTML += `
-                <button class="Delivered" disabled>
-                    Delivered <span class="material-symbols-outlined">check_circle</span>
-                </button>
-            `;
-            statusImage.src = "Delivered-removebg-preview.png"; // Update this with actual path
-        } else {
-            // Add all buttons (Picking Up Items, On My Way, etc.) if not delivered
-            actionButtonHTML += `
-                <form action="/api/picking-up-item" method="POST">
-                    <input type="hidden" name="numberID" value="${box.numberID}" />
-                    <button class="PickingUp" type="submit">Mark as Picking Up Items</button>
-                </form>
-                <form action="/api/on-my-way" method="POST">
-                    <input type="hidden" name="numberID" value="${box.numberID}" />
-                    <button class="OnMyWay" type="submit">Mark as On My Way</button>
-                </form>
-                <form action="/api/deliver" method="POST">
-                    <input type="hidden" name="numberID" value="${box.numberID}" />
-                    <button class="Deliver" type="submit">Mark as Delivered</button>
-                </form>
-            `;
-            statusImage.src = "Order_Accepted__1_-removebg-preview.png"; // Image for accepted but not yet delivered
+                boxElement.appendChild(statusImage);
+                container.appendChild(boxElement);
+            });
+
+            if (acceptedRequests.length === 0) {
+                container.innerHTML = `<p>You have not accepted any requests yet.</p>`;
+            }
         }
 
-        statusImage.style.width = "calc(100% - 20px)"; // Full width with padding
-statusImage.style.display = "block";
-statusImage.style.margin = "10px auto"; // Center it
-statusImage.style.padding = "10px"; // Add padding
-statusImage.style.borderRadius = "10px"; // Optional: Rounded corners
-
-
-        // Set image properties
-        statusImage.alt = "Request Status";
-        statusImage.width = 50;
-        
-
-        // Populate box content
-        boxElement.innerHTML = `
-            <div class="name">Requested by: ${box.username}</div>
-            <div class="request">${box.request}</div>
-            <div class="location">${box.location}</div>
-            ${actionButtonHTML}
-        `;
-
-        // Append image to the box
-        boxElement.appendChild(statusImage);
-        container.appendChild(boxElement);
-    });
-
-    // Display message if no accepted requests are found
-    if (acceptedRequests.length === 0) {
-        container.innerHTML = `<p>You have not accepted any requests yet.</p>`;
-    }
-}
-
-// Fetch data from the API and populate the request containers
-fetch('/api/get-requests')
-    .then(response => response.json())
-    .then(data => {
-        const { boxes, loggedInUsername } = data;
-        createBoxes(boxes, loggedInUsername);
-        createAcceptedBoxes(boxes, loggedInUsername);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    });
-
-             </script>
+        fetch('/api/get-requests')
+            .then(response => response.json())
+            .then(data => {
+                const { boxes, loggedInUsername } = data;
+                createBoxes(boxes, loggedInUsername);
+                createAcceptedBoxes(boxes, loggedInUsername);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
 </body>
 </html>

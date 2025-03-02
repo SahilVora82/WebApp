@@ -1,0 +1,141 @@
+/* Optimized CSS for Responsive Scaling */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-family: "Poppins", sans-serif;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.Signup {
+    position: absolute;
+    left: 75%;
+    top: 7.5%;
+    transform: translate(-25%, -92.5%);
+    font-size: 0.8rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.19);
+    color: aliceblue;
+    padding: 2%;
+    margin-top: 2%;
+}
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 90%;
+    justify-content: center;
+    padding: 1%;
+}
+
+.box {
+    background-color: #1d1f1f;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 2rem;
+    width: 40%;
+    max-width: 400px;
+    text-align: center;
+    color: aliceblue;
+    line-height: 1.8;
+}
+
+.logo {
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    transform: translate(-3%, -3%);
+}
+
+/* Buttons */
+/* Ensure the buttons are displayed inline */
+button {
+    display: inline-block;
+    margin: 5px; /* Optional: Adds some space between buttons */
+}
+
+/* Optionally: Wrap the buttons in a container for better layout control */
+.button-container {
+    display: flex;
+    gap: 10px; /* Optional: Adds space between buttons */
+}
+
+
+.Accept, .Decline, .Delivered, .Accepted {
+    border-radius: 15px;
+    border-width: 0;
+    padding: 3% 5%;
+    font-size: 1rem;
+    font-weight: 600;
+    
+    margin: 5%;
+    width: 30%;
+    display: inline-block;
+}
+
+.PickingUp, .OnMyWay, .Deliver{
+    border-radius: 15px;
+    border-width: 0;
+    padding: 3% 5%;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: rgb(14, 125, 215);
+    margin: 5%;
+    width: 100%;
+    display: inline-block;
+}
+
+
+.Accept { background-color: rgba(15, 234, 15, 0.729); }
+.Decline { background-color: #f3902c; }
+.Delivered { background-color: rgb(0, 255, 21); }
+.Accepted { background-color: rgb(15, 147, 180); padding: 5%;}
+
+/* Image Hover Effect */
+.hover-image {
+    transition: transform 0.3s ease;
+}
+.image-link:hover .hover-image {
+    transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .Signup {
+        font-size: 0.7rem;
+        padding: 1.5%;
+    }
+    .box-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .box {
+        width: 100%;
+        padding: 1.5rem;
+    }
+    .logo img {
+        width: 80px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .Signup {
+        font-size: 0.6rem;
+        padding: 1%;
+    }
+    .box {
+        width: 100%;
+        padding: 1rem;
+    }
+}
