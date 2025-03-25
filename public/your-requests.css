@@ -13,8 +13,12 @@ body {
 
 h1 {
     font-family: "Poppins", sans-serif;
-    margin-top: 10px;
+    margin-top: 1.5%;
     text-align: center;
+}
+
+a {
+    text-decoration: none;
 }
 
 .Signup {
@@ -83,6 +87,8 @@ button {
     width: 30%;
     display: inline-block;
 }
+
+
 
 .PickingUp, .OnMyWay, .Deliver{
     border-radius: 15px;

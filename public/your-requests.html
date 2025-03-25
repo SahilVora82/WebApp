@@ -81,32 +81,37 @@
                 statusImage.style.padding = "10px";
                 statusImage.style.borderRadius = "10px";
 
-                if (box.accepted === "yes") {
-                    actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
-                    statusImage.src = "Order_Accepted__1_-removebg-preview.png";
+                
 
-                    if (box.delivered === "no") {
-                        actionButtonHTML += `
-                            <div class="button-container">
-                                <form action="/api/deliver" method="POST">
-                                    <input type="hidden" name="numberID" value="${box.numberID}" />
-                                    <button class="Deliver" type="submit">Mark as Delivered</button>
-                                </form>
-                            </div>
-                        `;
-                    } else {
-                        actionButtonHTML += `<button class="Delivered" disabled><b>Delivered</b><span class="material-symbols-outlined">check_circle</span></button>`;
-                        statusImage.src = "Delivered-removebg-preview.png";
-                    }
-                } else if (box.username !== loggedInUsername) {
-                    actionButtonHTML = `
-                        <form action="/api/accept" method="POST">
-                            <input type="hidden" name="numberID" value="${box.numberID}" />
-                            <button class="Accept" type="submit">Accept Request</button>
-                        </form>
-                    `;
-                    statusImage.src = "None.png";
-                }
+                if (box.accepted === "yes") {
+    actionButtonHTML += `<button class="Accepted" disabled>Accepted by: ${box.requester_name}</button>`;
+    statusImage.src = "Order_Accepted__1_-removebg-preview.png";
+
+    if (box.delivered === "no") {
+        actionButtonHTML += `
+            <div class="button-container">
+                <form action="/api/deliver" method="POST">
+                    <input type="hidden" name="numberID" value="${box.numberID}" />
+                    <button class="Deliver" type="submit">Mark as Delivered</button>
+                </form>
+            </div>
+        `;
+    } else {
+        actionButtonHTML += `<button class="Delivered" disabled><b>Delivered</b><span class="material-symbols-outlined">check_circle</span></button>`;
+        statusImage.src = "Delivered-removebg-preview.png";
+    }
+} else {
+    actionButtonHTML = `
+        <form action="/api/accept" method="POST">
+            <input type="hidden" name="numberID" value="${box.numberID}" />
+            <button class="Accept" type="submit">Awaiting Acceptance</button>
+        </form>
+    `;
+    statusImage.src = "NoneNB.png"; // <-- Set a default pending image
+}
+
+
+                
 
                 statusImage.alt = "Request Status";
                 statusImage.width = 200;
@@ -125,6 +130,7 @@
             if (userRequests.length === 0) {
                 container.innerHTML = `<p>No requests found for your account.</p>`;
             }
+            
         }
 
         function createAcceptedBoxes(boxes, loggedInUsername) {
