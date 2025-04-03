@@ -31,7 +31,7 @@ router.post('/request', isAuthenticated, (req, res) => {
 });
 
 router.get('/get-requests', isAuthenticated, (req, res) => {
-    const query = 'SELECT username, request, location, requester_name, accepted, delivered, numberID FROM requests';
+    const query = 'SELECT username, request, location, requester_name, accepted, delivered, numberID, on_my_way, picking_up_items FROM requests';
 
     connection.query(query, (err, results) => {
         if (err) {
