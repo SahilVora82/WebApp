@@ -172,7 +172,7 @@ p{
     left: 90%;
     width:80%;
     color: aliceblue;
-    padding:6%;
+    padding:10%;
     transform: translate(-15%, -45%);
     border-radius: 20px;
 
@@ -184,8 +184,8 @@ p{
     position: absolute;
     font-size: 75%;
     top: 40%;
-    left: 35%;
-    transform: translate(-65%, -40%);
+    left: 40vw;
+    transform: translate(-50%, -50%);
 }
 
 .text{

@@ -75,11 +75,15 @@
                 let actionButtonHTML = '';
                 let statusImage = document.createElement('img'); 
 
-                statusImage.style.width = "calc(100% - 30px)";
+                statusImage.style.width = "calc(100% - 20px)";
                 statusImage.style.display = "block";
                 statusImage.style.margin = "10px auto";
                 statusImage.style.padding = "10px";
                 statusImage.style.borderRadius = "10px";
+
+                statusImage.alt = "Request Status";
+                statusImage.width = 50;
+               
 
                 
 
@@ -154,9 +158,9 @@
                         </button>
                     `;
                     statusImage.src = "Delivered-removebg-preview.png";
-                } else if (box.pickingUp === "yes") {
+                } else if (box.picking_up_items === 1) {
                     statusImage.src = "Order_Accepted__2_-removebg-preview.png"; // Image for picking up items
-                } else if (box.onMyWay === "yes") {
+                } else if (box.on_my_way === 1) {
                     statusImage.src = "Order_Accepted__3_-removebg-preview.png"; // Image for on my way
                 } else {
                     actionButtonHTML += `

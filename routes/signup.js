@@ -20,72 +20,104 @@ function generateToken() {
 
 
 
-router.post('/signup', (req, res) => {
-    console.log('Signup request received:', req.body);
-    const { username, password, location, email } = req.body;
-    console.log('Signup parameters:', username, password, location, email);
-    const checkUserInput = 'SELECT * FROM users WHERE username = ?';
-    const query = 'INSERT INTO users (username, password, location, email, verification_token) VALUES (?, ?, ?, ?, ?)';
-    const verification_token = Math.floor(100000 + Math.random() * 900000);
+async function geoCodeAddress(address) {
+    const geoCodeApiKey = 'pk.4e7d542fb27c753e173543c95bf667e6';
+    const url = `https://us1.locationiq.com/v1/search.php?key=${geoCodeApiKey}&q=${encodeURIComponent(address)}&format=json`;
 
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-
-    connection.query(checkUserInput, [username], (err, results) => {
-        if (err) {
-            console.error('Error checking for existing user:', err);
-            res.status(500).send('Error checking for existing user');
-            return;
+        if (data.length > 0) {
+            const location = data[0];
+            const lat = location.lat;
+            const lon = location.lon;
+            return `${lat},${lon}`; // Return as "latitude,longitude"
+        } else {
+            throw new Error('No results found for the address');
         }
+    } catch (error) {
+        console.error('Error geocoding the address:', error);
+        throw new Error('Geocoding failed');
+    }
+}
 
-        if (results.length > 0) {
-            console.log('Username already exists');
-            res.redirect('/signupError.html');
-            return;
-        }
+// Update the signup route
+router.post('/signup', async (req, res) => {
+    try {
+        console.log('Signup request received:', req.body);
+        const { username, password, location: rawLocation, email } = req.body;
 
-        bcrypt.hash(password, 10, (err, hashedPassword) => {
+        // Geocode the location
+        const locationgeo = await geoCodeAddress(rawLocation); // Wait for geocoding
+        console.log(locationgeo)
+        console.log('Signup parameters:', username, password, location, email);
+
+        const checkUserInput = 'SELECT * FROM users WHERE username = ?';
+        const query = 'INSERT INTO users (username, password, location, email, verification_token) VALUES (?, ?, ?, ?, ?)';
+        const verification_token = Math.floor(100000 + Math.random() * 900000);
+
+        // Check if username exists
+        connection.query(checkUserInput, [username], async (err, results) => {
             if (err) {
-                console.error('Error hashing password:', err);
-                res.status(500).send('Error hashing password');
+                console.error('Error checking for existing user:', err);
+                res.status(500).send('Error checking for existing user');
                 return;
             }
-            const token = generateToken();
 
-            console.log('Hashed password:', hashedPassword);
+            if (results.length > 0) {
+                console.log('Username already exists');
+                res.redirect('/signupError.html');
+                return;
+            }
 
-            connection.query(query, [username, hashedPassword, location, email, verification_token], (err, results) => {
+            // Hash the password
+            bcrypt.hash(password, 10, (err, hashedPassword) => {
                 if (err) {
-                    console.error('Error inserting user into the database:', err);
-                    res.status(500).send('Error inserting user into the database');
+                    console.error('Error hashing password:', err);
+                    res.status(500).send('Error hashing password');
                     return;
                 }
 
-                // Send the verification email
-                const verificationLink = `http://localhost:3000/api/verify-email?token=${token}`;
-                const mailOptions = {
-                    from: '"Neighborly Network" <networkneighborly@gmail.com>',
-                    to: email,
-                    subject: 'Verify Your Email',
-                    html: `
-                        <p>Welcome to Neighborly Network!</p>
-                        <p>Please verify your email by clicking the link below:</p>
-                       <h1>${verification_token}</h1>
-                    `
-                };
+                console.log('Hashed password:', hashedPassword);
 
-                transporter.sendMail(mailOptions, (err, info) => {
+                // Insert user into the database
+                connection.query(query, [username, hashedPassword, location, email, verification_token], (err, results) => {
                     if (err) {
-                        console.error('Error sending verification email:', err);
-                        res.status(500).send('Error sending verification email');
+                        console.error('Error inserting user into the database:', err);
+                        res.status(500).send('Error inserting user into the database');
                         return;
                     }
 
-                    console.log('Verification email sent:', info.response);
-                    res.redirect('/verificationPage.html');
+                    // Send the verification email
+                    const mailOptions = {
+                        from: '"Neighborly Network" <networkneighborly@gmail.com>',
+                        to: email,
+                        subject: 'Verify Your Email',
+                        html: `
+                            <p>Welcome to Neighborly Network!</p>
+                            <p>Please verify your email by clicking the link below:</p>
+                           <h1>${verification_token}</h1>
+                        `,
+                    };
+
+                    transporter.sendMail(mailOptions, (err, info) => {
+                        if (err) {
+                            console.error('Error sending verification email:', err);
+                            res.status(500).send('Error sending verification email');
+                            return;
+                        }
+
+                        console.log('Verification email sent:', info.response);
+                        res.redirect('/verificationPage.html');
+                    });
                 });
             });
         });
-    });
+    } catch (error) {
+        console.error('Error during signup:', error);
+        res.status(500).send('Error during signup');
+    }
 });
 
 
