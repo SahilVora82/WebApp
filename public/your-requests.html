@@ -158,14 +158,34 @@
                         </button>
                     `;
                     statusImage.src = "Delivered-removebg-preview.png";
-                } else if (box.picking_up_items === 1) {
-                    statusImage.src = "Order_Accepted__2_-removebg-preview.png"; // Image for picking up items
-                } else if (box.on_my_way === 1) {
+                } 
+                
+                else if (box.on_my_way === 1) {
                     statusImage.src = "Order_Accepted__3_-removebg-preview.png"; // Image for on my way
-                } else {
                     actionButtonHTML += `
                         <div class="button-container">
-                            <form action="/api/pickingup" method="POST">
+                            <form action="/api/picking-up-item" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="PickingUp" type="submit">Mark as Picking Up Items</button>
+                            </form>
+                            <form action="/api/on-my-way" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="OnMyWay" type="submit">Mark as On My Way</button>
+                            </form><form action="/api/deliver" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="Deliver" type="submit">Mark as Delivered</button>
+                            </form>
+                        </div>
+                    `;
+                    
+                }
+                
+                
+                else if (box.picking_up_items === 1) {
+                    statusImage.src = "Order_Accepted__2_-removebg-preview.png"; // Image for picking up items
+                    actionButtonHTML += `
+                        <div class="button-container">
+                            <form action="/api/picking-up-item" method="POST">
                                 <input type="hidden" name="numberID" value="${box.numberID}" />
                                 <button class="PickingUp" type="submit">Mark as Picking Up Items</button>
                             </form>
@@ -174,6 +194,22 @@
                                 <button class="OnMyWay" type="submit">Mark as On My Way</button>
                             </form>
                             <form action="/api/deliver" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="Deliver" type="submit">Mark as Delivered</button>
+                            </form>
+                        </div>
+                    `;
+                }  else {
+                    actionButtonHTML += `
+                        <div class="button-container">
+                            <form action="/api/picking-up-item" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="PickingUp" type="submit">Mark as Picking Up Items</button>
+                            </form>
+                            <form action="/api/on-my-way" method="POST">
+                                <input type="hidden" name="numberID" value="${box.numberID}" />
+                                <button class="OnMyWay" type="submit">Mark as On My Way</button>
+                            </form><form action="/api/deliver" method="POST">
                                 <input type="hidden" name="numberID" value="${box.numberID}" />
                                 <button class="Deliver" type="submit">Mark as Delivered</button>
                             </form>
