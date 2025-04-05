@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Active Requests</title>
+    <title>About Us | Neighborly Network</title>
+    <link rel="icon" type="image/x-icon" href="AddAHeading.png">
     <link rel="stylesheet" href="aboutus.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -62,9 +63,9 @@
 </head>
 <body style="background-color: rgb(16, 16, 16);">
 <div class="logo">
-    <a href="LandingPage.html" class="image-link">
-        <img src="AddAHeading.png" style="width: 15%;" style="" class="hover-image" />
-    </a>
+   
+        <img src="AddAHeading.png" style="width: 15%;" style="" class="hover-image" id="backButton"/>
+    
 </div>
 
 <h1 style="color:white">About Us
@@ -89,7 +90,16 @@
 </div>
 
 <br>
-
+<script>
+    document.getElementById('backButton').addEventListener('click', function() {
+      const previousPage = document.referrer;
+      if (previousPage) {
+        window.location.href = previousPage;
+      } else {
+        window.location.href = '/';  // Default fallback if no referrer
+      }
+    });
+  </script>
 
 
 
