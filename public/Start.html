@@ -6,145 +6,111 @@
   <title>Neighborly Network</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    .random-act {
-      background-color: var(--card-bg);
-      color: var(--text);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 800px;
-      margin: 2rem auto;
-      text-align: center;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-
-    .random-act h3 {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-      font-weight: 600;
-    }
-
-    .random-act span {
-      font-size: 1.2rem;
-      color: var(--link);
-      font-weight: 500;
-    }
-
-    .random-act-container {
-      max-width: 100%;
-    }
-
-    .random-act-message {
-      font-size: 1.4rem;
-      font-style: italic;
-      color: var(--link);
-    }
-
-    /* Hover effect */
-    .random-act:hover {
-      background-color: var(--card-bg);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
+    /* Global Variables for Light and Dark Themes */
 
 
-    body.light {
-      --bg: #f4f6f8;
-      --text: #333;
-      --header: #ffffff;
-      --link: #555;
-      --link-hover: #0077cc;
-      --hero-bg: linear-gradient(120deg, #89f7fe, #66a6ff);
-      --button-bg: white;
-      --button-text: #0077cc;
-      --card-bg: white;
-      --footer: #ffffff;
-      --footer-text: #888;
-    }
+:root {
+  --bg: #1e1e1e;
+  --text: #f4f4f4;
+  --header: #2c2c2c;
+  --link: #cccccc;
+  --link-hover: #66aaff;
+  --button-bg: #333;
+  --button-text: #ffffff;
+  --card-bg: #2a2a2a;
+  --footer: #2c2c2c;
+  --footer-text: #aaa;
+}
 
-   :root {
-      --bg: #1e1e1e;
-      --text: #f4f4f4;
-      --header: #2c2c2c;
-      --link: #cccccc;
-      --link-hover: #66aaff;
-      --hero-bg: linear-gradient(120deg, #1f1c2c, #698eae);
-      --button-bg: #333;
-      --button-text: #ffffff;
-      --card-bg: #2a2a2a;
-      --footer: #2c2c2c;
-      --footer-text: #aaa;
-    }
+/* Resetting Default Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
-    }
+/* Body Styling */
+body {
+  background-image: url('neighborhood.jpeg'); /* Replace with your image URL */
+  background-size: cover; /* Ensures the image covers the entire page */
+  background-position: center; /* Centers the image */
+  background-attachment: fixed; /* Keeps the background fixed while scrolling */
+  color: var(--text); /* Ensures text is visible on top of the background */
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      transition: background 0.3s, color 0.3s;
-    }
+/* Header Styling */
+header {
+  background: var(--header);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
 
-    header {
-      background: var(--header);
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
+/* Logo Styling */
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--text);
-    }
+/* Navigation Styling */
+nav a {
+  margin-left: 1.5rem;
+  text-decoration: none;
+  color: var(--link);
+  font-weight: 500;
+  transition: color 0.2s;
+}
 
-    nav a {
-      margin-left: 1.5rem;
-      text-decoration: none;
-      color: var(--link);
-      font-weight: 500;
-      transition: color 0.2s;
-    }
+nav a:hover {
+  color: var(--link-hover);
+}
 
-    nav a:hover {
-      color: var(--link-hover);
-    }
+/* Toggle Container Styling */
+.-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+.toggle-container label {
+  font-size: 0.9rem;
+  color: var(--text);
+}
 
-    .toggle-container label {
-      font-size: 0.9rem;
-      color: var(--text);
-    }
+.container{
+    color: #ffffff;
+    text-shadow: 2px 0 #0a0a0a, -2px 0 #0a0a0a, 0 2px #0a0a0a, 0 -2px #0a0a0a,
+             1px 1px #0a0a0a, -1px -1px #0a0a0a, 1px -1px #0a0a0a, -1px 1px #0a0a0a;
+}
 
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-      background: var(--hero-bg);
-      color: white;
-    }
+/* Hero Section Styling */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--hero-bg);
+  color: white;
+}
 
-    .hero h1 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
 
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
 
-    .hero button {
+/* Hero Button Styling */
+.hero button {
   background-color: var(--button-bg);
   color: var(--button-text);
   padding: 0.8rem 1.6rem;
@@ -167,38 +133,95 @@
 .hero button:active {
   transform: translateY(5px); /* Subtle press effect */
 }
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 4rem 2rem;
-    }
 
-    .feature-card {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      text-align: center;
-      transition: background 0.3s;
-    }
+/* Features Section Styling */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 4rem 2rem;
+}
 
-    .feature-card h3 {
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
+/* Feature Card Styling */
+.feature-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: background 0.3s;
+}
 
-    .feature-card p {
-      color: var(--link);
-    }
+.feature-card h3 {
+  margin-bottom: 1rem;
+  color: var(--text);
+}
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: var(--footer);
-      color: var(--footer-text);
-      transition: background 0.3s;
-    }
+.feature-card p {
+  color: var(--link);
+}
+
+/* Footer Styling */
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: var(--footer);
+  color: var(--footer-text);
+  transition: background 0.3s;
+}
+
+/* Random Act Card Styling */
+.random-act {
+  background-color: var(--card-bg);
+  color: var(--text);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: center;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.random-act h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.random-act span {
+  font-size: 1.2rem;
+  color: var(--link);
+  font-weight: 500;
+}
+
+.random-act-container {
+  max-width: 100%;
+}
+
+.random-act-message {
+  font-size: 1.4rem;
+  font-style: italic;
+  color: var(--link);
+}
+
+/* Hover Effect for Random Act */
+.random-act:hover {
+  background-color: var(--card-bg);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ensuring Elements Are Above Background */
+header, .hero, .features, footer, .random-act {
+  position: relative; /* Ensures elements are on top of the background */
+  z-index: 1;
+}
+
+h1, h3, p {
+  z-index: 2; /* Ensures text and other content are on top of the background */
+  position: relative;
+}
+
   </style>
 </head>
 <link rel="icon" type="image/x-icon" href="AddAHeading.png">
@@ -218,8 +241,9 @@
   </header>
 
   <section class="hero">
+    <div class="container">
     <h1>Unite. Inspire. Strengthen.</h1>
-    <p>Neighborly Network helps you build stronger, smarter, and more supportive communities — one connection at a time.</p>
+    <p>Neighborly Network helps you build stronger, smarter, and more supportive communities — one connection at a time.</p></div>
     <a href="Signup.html"><button>Join Your Neighborhood</button></a>
 
   <section class="features">
