@@ -51,7 +51,7 @@ router.post('/signup', async (req, res) => {
         // Geocode the location
         const locationgeo = await geoCodeAddress(rawLocation); // Wait for geocoding
         console.log(locationgeo)
-        console.log('Signup parameters:', username, password, location, email);
+        console.log('Signup parameters:', username, password, locationgeo, email);
 
         const checkUserInput = 'SELECT * FROM users WHERE username = ?';
         const query = 'INSERT INTO users (username, password, location, email, verification_token) VALUES (?, ?, ?, ?, ?)';
@@ -82,7 +82,7 @@ router.post('/signup', async (req, res) => {
                 console.log('Hashed password:', hashedPassword);
 
                 // Insert user into the database
-                connection.query(query, [username, hashedPassword, location, email, verification_token], (err, results) => {
+                connection.query(query, [username, hashedPassword, locationgeo, email, verification_token], (err, results) => {
                     if (err) {
                         console.error('Error inserting user into the database:', err);
                         res.status(500).send('Error inserting user into the database');
